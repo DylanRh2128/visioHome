@@ -5,9 +5,9 @@ $user="root";
 $pass="";
 $bd="visiohome";
 
-$conn=mysqli_connect($server,$user,$pass,$bd);
+$conexion=mysqli_connect($server,$user,$pass,$bd);
 
-if(!$conn){
+if(!$conexion){
     die("Conexion fallida: ".mysqli_connect_error());
 }
 echo"Conexion exitosa";
