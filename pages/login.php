@@ -20,3 +20,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { // Verifica si el formulario fue env
     }
 }
 ?>
+
