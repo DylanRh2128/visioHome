@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro</title>
+    <link rel="stylesheet" href="./css/registro.css">
+</head>
+<body>
+
+<h2>Registro</h2>
+
+<form id="registroForm">
+    <label>Nombre:</label><br>
+    <input type="text" id="nombre"><br><br>
+
+    <label>Correo:</label><br>
+    <input type="text" id="correo"><br><br>
+
+    <label>Teléfono:</label><br>
+    <input type="text" id="telefono" maxlength="10"><br><br>
+
+    <label>Contraseña:</label><br>
+    <input type="password" id="password"><br>
+
+<ul id="requisitos">
+    <li id="reqMayus">✔ Al menos una mayúscula</li>
+    <li id="reqMinus">✔ Al menos una minúscula</li>
+    <li id="reqNum">✔ Al menos un número</li>
+    <li id="reqLong">✔ Entre 6 y 12 caracteres</li>
+    <li id="reqNoSpace">✔ Sin espacios</li>
+</ul>
+
+    <div id="seguridad" style="font-weight:bold; margin-top:5px;"></div>
+
+    <br>
+    <button type="submit">Registrar</button>
+
+    <p id="mensaje"></p>
+</form>
+
+<script src="./js/validacionRegistro.js"></script>
+
+<p>¿Ya tienes cuenta? <a href="./login.html">iniciar sesion</a></p>
+</body>
+</html>
