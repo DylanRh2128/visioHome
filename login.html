@@ -1,19 +1,47 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar sesión</title>
-    <link rel="stylesheet" href="./css/login.css">
+    <link rel="stylesheet" href="login.css">
 </head>
 <body>
-    <h2>Iniciar sesión</h2>
-    <form id="loginForm">
-        <label for="usuario">Usuario:</label>
-        <input type="text" id="usuario" name="usuario">
-        <label for="password">Contraseña:</label>
-        <input type="password" id="password" name="password">
-        <p id="seguridad"></p>
+<header>
+<nav class="nav">
+
+    <div class="logo-box">
+    <img src="./imagen.logo.png" alt="Logo VisioHome">
+    </div>
+    <form class="search-bar">
+    <span class="icon">🔍</span>
+    <input type="search" placeholder="BUSCAR">
+    </form>
+    <ul class="menu">
+        <li><a href="#">Inmobiliario</a></li>
+        <li><a href="#">Venta</a></li>
+        <li><a href="#">Arriendo</a></li>
+        <li><a class="btn-registrarse" href="#">Registrarse</a></li>
+    </ul>
+</nav>
+</header>
+
+<main>
+<section class="login-container">
+    <h1>Iniciar Sesión</h1>
+    <form>
+        <label>Correo</label>
+        <input type="email" value="email@janesfakedomain.net" required>
+        <label>Password</label>
+        <input type="password" placeholder="Ingresa tu Contraseña" required>
+        <div class="options">
+        <a href="#">¿Olvidaste su contraseña?</a>
+        <a class="small-btn" href="#">Ya te registraste?</a>
+        </div>
+        <button class="btn-enviar" type="submit">Enviar</button>
+    </form>
+
 <ul id="requisitos">
     <li id="reqMayus">✔ Al menos una mayúscula</li>
     <li id="reqMinus">✔ Al menos una minúscula</li>
@@ -36,6 +64,37 @@ document.getElementById("loginForm").addEventListener("submit", function(e) {
 });
 </script> -->
     <p>¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a></p>
+
+    
+</section>
+</main>
+<footer>
+<div class="footer-section">
+    <h3>VisioHome</h3>
+    <div class="social">
+        <span>Facebook</span>
+        <span>Instagram</span>
+        <span>Whatsapp</span>
+
+    </div>
+</div>
+<div class="footer-section">
+    <p>Nosotros</p>
+    <p>Camino de VisioHome</p>
+    <p>Trabaja con nosotros</p>
+</div>
+<div class="footer-section">
+    <h4>Help</h4>
+    <p>Reuniones</p>
+    <p>Preguntas frecuentes</p>
+    <p>Cómo trabajar</p>
+    <p>PQRS</p>
+</div>
+<div class="footer-section">
+    <h4>Contact</h4>
+    <p>3135057684</p>
+    <p>visioHome@gmail.com</p>
+</div>
 </body>
 </html>
 
