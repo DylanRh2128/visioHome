@@ -7,7 +7,7 @@
 
     <div class="collapse navbar-collapse" id="menu">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="/VisioHome/pages/inicio.php">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="/VisioHome/index.php">Inicio</a></li>
         <li class="nav-item"><a class="nav-link" href="/VisioHome/pages/nosotros.php">Nosotros</a></li>
         <li class="nav-item"><a class="nav-link" href="/VisioHome/pages/registro.php">Registro</a></li>
         <li class="nav-item"><a class="nav-link" href="/VisioHome/pages/login.php">Iniciar Sesión</a></li>

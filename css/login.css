@@ -1,16 +1,23 @@
+/* RESET GENERAL */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', sans-serif;
 }
+
 body {
     background: #ffffff;
 }
+
+/* =========================
+   NAVBAR (desde tu diseño)
+   ========================= */
 header {
     background: #630000;
     padding: 15px 40px;
 }
+
 .nav {
     display: flex;
     align-items: center;
@@ -31,10 +38,12 @@ header {
     border-radius: 4px;
     gap: 10px;
 }
+
 .search-bar .icon {
     color: white;
     font-size: 18px;
 }
+
 .search-bar input {
     background: transparent;
     border: none;
@@ -49,103 +58,56 @@ header {
     align-items: center;
     gap: 30px;
 }
+
 .menu li a {
     color: white;
     text-decoration: none;
     font-size: 15px;
 }
+
 .btn-registrarse {
     border: 1px solid white;
     padding: 6px 16px;
     border-radius: 6px;
 }
 
-h2 {
-    text-align: center;
-    margin-top: 20px;
+/* =========================
+   FORMULARIO LOGIN
+   ========================= */
+
+h3.text-center {
     font-weight: 500;
 }
 
-main {
-    display: flex;
-    justify-content: center;
-    padding: 40px 0;
-}
-
-.login-container {
-    width: 450px;
-}
-.login-container h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    margin-top: 20px;
-}
-.login-container form label {
-    margin-top: 15px;
-    display: block;
+form label {
     font-size: 14px;
 }
-.login-container form input {
-    width: 100%;
-    padding: 12px;
-    border: none;
+
+/* Estilos personalizados para inputs con Bootstrap */
+form .form-control {
     background: #6d0000;
     color: white;
+    border: none;
+    padding: 12px;
     border-radius: 6px;
-    margin-bottom: 10px;
 }
-.login-container form input::placeholder {
+
+form .form-control::placeholder {
     color: #e0e0e0;
 }
 
-.options {
-    display: flex;
-    justify-content: space-between;
-    margin: 10px 0;
-}
-.options a {
-    color: black;
-    text-decoration: none;
-}
-.small-btn {
-    padding: 5px 12px;
-    border: 1px solid black;
+/* Botón enviar */
+.btn-success {
+    background: black !important;
+    border: none !important;
+    padding: 12px;
     border-radius: 6px;
 }
 
-.btn-enviar {
-    width: 100%;
-    background: black;
-    color: white;
-    padding: 12px;
-    border: none;
-    border-radius: 6px;
-    margin-top: 15px;
-    cursor: pointer;
-}
+/* =========================
+   FOOTER
+   ========================= */
 
-#requisitos {
-    margin-top: 20px;
-    list-style: none;
-    font-size: 14px;
-    line-height: 23px;
-}
-#requisitos li {
-    color: #333;
-}
-button[type="submit"] {
-    width: 100%;
-    background: black;
-    color: white;
-    padding: 12px;
-    border-radius: 6px;
-    border: none;
-    margin-top: 15px;
-}
-#mensaje {
-    margin-top: 10px;
-    font-size: 14px;
-}
 footer {
     background: #630000;
     color: white;
@@ -155,17 +117,21 @@ footer {
     margin-top: 80px;
     font-size: 14px;
 }
+
 .footer-section h3 {
     font-size: 20px;
     margin-bottom: 10px;
 }
+
 .footer-section h4 {
     font-size: 16px;
     margin-bottom: 10px;
 }
+
 .footer-section p {
     margin-bottom: 6px;
 }
+
 .social span {
     display: inline-block;
     margin-right: 10px;
