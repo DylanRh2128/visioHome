@@ -108,7 +108,6 @@
                 <a href="#">Política de privacidad</a>
             </div>
         </div>
-        <p style="margin-top:20px;">© 2025 VisioHome - Todos los derechos reservados</p>
     </footer>
 </body>
 </html>

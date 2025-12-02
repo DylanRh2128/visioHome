@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: application/json; charset=UTF-8");
-include "../db/conexion.php";
+include "../../db/conexion.php";
 
 $response = ["success" => false, "message" => ""];
 
