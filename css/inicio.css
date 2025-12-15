@@ -1,0 +1,36 @@
+/* inicio.css - Dashboard o página interna */
+
+body {
+  background-color: #1c1f2a;
+  color: #f8f9fa;
+  padding-top: 70px;
+  font-family: "Inter", sans-serif;
+}
+
+.navbar {
+  background-color: #111322 !important;
+}
+
+.card {
+  background-color: #2a2d3e;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.btn-dashboard {
+  background-color: #00bcd4;
+  border: none;
+  color: #fff;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.btn-dashboard:hover {
+  background-color: #0097a7;
+}

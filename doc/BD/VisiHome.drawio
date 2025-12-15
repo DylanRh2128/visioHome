@@ -1,0 +1,120 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36" version="28.1.1">
+  <diagram name="VisioHome_ER_Completo" id="ES1AbmRuTqn0-s7pF5S1">
+    <mxGraphModel dx="780" dy="1586" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="qmG6XimdMKexTKNUMVgx-1" value="Roles&#xa;idRol PK&#xa;nombre" style="shape=rectangle;whiteSpace=wrap;fillColor=#e6d0de;strokeColor=#996185;fontFamily=Tahoma;gradientColor=#d5739d;" vertex="1" parent="1">
+          <mxGeometry x="40" y="-360" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="qmG6XimdMKexTKNUMVgx-2" value="Usuarios&#xa;docUsuario PK&#xa;nombre&#xa;correo&#xa;telefono&#xa;direccion&#xa;contrasena&#xa;idRol FK&#xa;creado_en&#xa;actualizado_en" style="shape=rectangle;whiteSpace=wrap;fillColor=#e6d0de;strokeColor=#996185;fontFamily=Verdana;fontStyle=0;gradientColor=#d5739d;" vertex="1" parent="1">
+          <mxGeometry x="290" y="-400" width="180" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="qmG6XimdMKexTKNUMVgx-3" value="Inmobiliarias&#xa;nitInmobiliaria PK&#xa;nombre&#xa;correo&#xa;telefono&#xa;direccion&#xa;objetivo" style="shape=rectangle;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;gradientColor=#7ea6e0;" vertex="1" parent="1">
+          <mxGeometry x="620" y="-390" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="qmG6XimdMKexTKNUMVgx-4" value="Agentes&#xa;docAgente PK&#xa;nombre&#xa;direccion&#xa;correo&#xa;telefono&#xa;nitInmobiliaria FK&#xa;activo" style="shape=rectangle;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Verdana;fontStyle=0;gradientColor=#7ea6e0;" vertex="1" parent="1">
+          <mxGeometry x="520" y="-10" width="180" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="qmG6XimdMKexTKNUMVgx-5" value="Propiedades&#xa;idPropiedad PK&#xa;titulo&#xa;descripcion&#xa;ubicacion&#xa;tamano_m2&#xa;precio&#xa;estado&#xa;tipo&#xa;nitInmobiliaria FK&#xa;creado_en&#xa;actualizado_en" style="shape=rectangle;whiteSpace=wrap;fillColor=#ffcd28;strokeColor=#d79b00;fontFamily=Tahoma;gradientColor=#ffa500;" vertex="1" parent="1">
+          <mxGeometry x="580" y="-210" width="200" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="qmG6XimdMKexTKNUMVgx-6" value="Propiedad_Imagenes&#xa;idImagen PK&#xa;idPropiedad FK&#xa;urlImagen&#xa;orden&#xa;creado_en" style="shape=rectangle;whiteSpace=wrap;fillColor=#ffcd28;strokeColor=#d79b00;fontFamily=Verdana;fontStyle=0;gradientColor=#ffa500;" vertex="1" parent="1">
+          <mxGeometry x="370" y="-210" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="qmG6XimdMKexTKNUMVgx-7" value="Citas&#xa;idCita PK&#xa;idPropiedad FK&#xa;docUsuario FK&#xa;docAgente FK&#xa;fecha&#xa;estado&#xa;canal&#xa;notas&#xa;creado_en" style="shape=rectangle;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontFamily=Tahoma;gradientColor=#97d077;" vertex="1" parent="1">
+          <mxGeometry x="50" y="-220" width="200" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="qmG6XimdMKexTKNUMVgx-8" value="Pagos&#xa;idPago PK&#xa;docUsuario FK&#xa;idPropiedad FK&#xa;idCita FK&#xa;monto&#xa;metodoPago&#xa;estado&#xa;referencia&#xa;fecha" style="shape=rectangle;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontFamily=Tahoma;gradientColor=#97d077;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="200" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="qmG6XimdMKexTKNUMVgx-9" value="Comentarios_Propiedad&#xa;idComentario PK&#xa;idPropiedad FK&#xa;docUsuario FK&#xa;comentario&#xa;puntuacion&#xa;fecha" style="shape=rectangle;whiteSpace=wrap;fillColor=#ffcd28;strokeColor=#d79b00;fontFamily=Verdana;fontStyle=0;gradientColor=#ffa500;" vertex="1" parent="1">
+          <mxGeometry x="530" y="160" width="200" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="qmG6XimdMKexTKNUMVgx-10" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;fillColor=#e6d0de;strokeColor=#996185;fontFamily=Verdana;fontStyle=0;gradientColor=#d5739d;" edge="1" parent="1" source="qmG6XimdMKexTKNUMVgx-2" target="qmG6XimdMKexTKNUMVgx-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="qmG6XimdMKexTKNUMVgx-11" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;fillColor=#b0e3e6;strokeColor=#0e8088;" edge="1" parent="1" source="qmG6XimdMKexTKNUMVgx-4" target="qmG6XimdMKexTKNUMVgx-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="800" y="60" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="qmG6XimdMKexTKNUMVgx-12" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;fillColor=#e6d0de;strokeColor=#996185;fontFamily=Verdana;fontStyle=0;gradientColor=#d5739d;" edge="1" parent="1" source="qmG6XimdMKexTKNUMVgx-5" target="qmG6XimdMKexTKNUMVgx-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="qmG6XimdMKexTKNUMVgx-13" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;fillColor=#e6d0de;strokeColor=#996185;fontFamily=Verdana;fontStyle=0;gradientColor=#d5739d;" edge="1" parent="1" source="qmG6XimdMKexTKNUMVgx-6" target="qmG6XimdMKexTKNUMVgx-5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="560" y="-70" />
+              <mxPoint x="560" y="-70" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="qmG6XimdMKexTKNUMVgx-14" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;fillColor=#e6d0de;strokeColor=#996185;fontFamily=Verdana;fontStyle=0;gradientColor=#d5739d;" edge="1" parent="1" source="qmG6XimdMKexTKNUMVgx-7" target="qmG6XimdMKexTKNUMVgx-5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="270" y="-140" />
+              <mxPoint x="270" y="-50" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="qmG6XimdMKexTKNUMVgx-15" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;fillColor=#e6d0de;strokeColor=#996185;fontFamily=Verdana;fontStyle=0;gradientColor=#d5739d;" edge="1" parent="1" source="qmG6XimdMKexTKNUMVgx-7" target="qmG6XimdMKexTKNUMVgx-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="270" y="-160" />
+              <mxPoint x="270" y="-330" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="qmG6XimdMKexTKNUMVgx-16" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;fillColor=#e6d0de;strokeColor=#996185;fontFamily=Verdana;fontStyle=0;gradientColor=#d5739d;" edge="1" parent="1" source="qmG6XimdMKexTKNUMVgx-7" target="qmG6XimdMKexTKNUMVgx-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="150" y="20" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="qmG6XimdMKexTKNUMVgx-17" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;fillColor=#b0e3e6;strokeColor=#0e8088;fontFamily=Verdana;fontStyle=0" edge="1" parent="1" source="qmG6XimdMKexTKNUMVgx-8" target="qmG6XimdMKexTKNUMVgx-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="340" y="170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="qmG6XimdMKexTKNUMVgx-18" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;fillColor=#b0e3e6;strokeColor=#0e8088;fontFamily=Verdana;fontStyle=0" edge="1" parent="1" source="qmG6XimdMKexTKNUMVgx-8" target="qmG6XimdMKexTKNUMVgx-5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="140" y="380" />
+              <mxPoint x="760" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="qmG6XimdMKexTKNUMVgx-19" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;fillColor=#e6d0de;strokeColor=#996185;fontFamily=Verdana;fontStyle=0;gradientColor=#d5739d;" edge="1" parent="1" source="qmG6XimdMKexTKNUMVgx-8" target="qmG6XimdMKexTKNUMVgx-7">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="140" y="-10" />
+              <mxPoint x="150" y="-10" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="qmG6XimdMKexTKNUMVgx-20" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;fillColor=#b0e3e6;strokeColor=#0e8088;fontFamily=Verdana;fontStyle=0" edge="1" parent="1" source="qmG6XimdMKexTKNUMVgx-9" target="qmG6XimdMKexTKNUMVgx-5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="770" y="370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="qmG6XimdMKexTKNUMVgx-21" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;fillColor=#b0e3e6;strokeColor=#0e8088;fontFamily=Verdana;fontStyle=0" edge="1" parent="1" source="qmG6XimdMKexTKNUMVgx-9" target="qmG6XimdMKexTKNUMVgx-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="500" y="370" />
+              <mxPoint x="500" y="105" />
+              <mxPoint x="310" y="105" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
