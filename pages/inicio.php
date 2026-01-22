@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="../css/inicio.css">
 </head>
 <body>
-  <?php include '../src/includes/navbar.php'; ?>
+  <?php include '../components/navbar.php'; ?>
 
   <div class="container mt-5">
     <h2 class="mb-4 text-center text-info">Panel del Usuario</h2>

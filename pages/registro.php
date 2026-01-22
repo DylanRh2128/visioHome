@@ -9,7 +9,7 @@
 </head>
 
 <body>
-
+ <?php include '../components/navbar.php'; ?>
     <div class="registro-container">
         <h2 class="text-center mb-4">Crear una cuenta</h2>
 
