@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-10-2025 a las 16:28:05
+-- Tiempo de generación: 22-01-2026 a las 17:24:03
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -169,11 +169,21 @@ CREATE TABLE `usuarios` (
   `correo` varchar(180) NOT NULL,
   `telefono` varchar(30) DEFAULT NULL,
   `direccion` varchar(200) DEFAULT NULL,
-  `contrasena` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `idRol` tinyint(4) NOT NULL,
   `creado_en` datetime DEFAULT current_timestamp(),
-  `actualizado_en` datetime DEFAULT NULL
+  `actualizado_en` datetime DEFAULT NULL,
+  `intentosFallidos` int(11) NOT NULL DEFAULT 0,
+  `bloqueadoHasta` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`docUsuario`, `nombre`, `correo`, `telefono`, `direccion`, `password`, `idRol`, `creado_en`, `actualizado_en`, `intentosFallidos`, `bloqueadoHasta`) VALUES
+('1033183120', 'Dylan Rios', 'dylanrios211@gmail.com', '3135057694', 'crra 31 #75c-44', '$2y$10$N9yjvq82BP6rX8h.7b2Quea6z8OS1a1TSHyfIx0LY9M3lGrjvafma', 1, '2026-01-19 12:38:24', NULL, 0, NULL),
+('1038263414', 'rios', 'dylanrios@gmail.com', '3006817510', 'calle 31#75c-44', '$2y$10$NKTfPixVnLefzXaBXtvJ/.bp5k/DWX3QY7BsUbNSePhRCA/rwCrFa', 2, '2026-01-20 16:40:49', NULL, 0, NULL);
 
 --
 -- Índices para tablas volcadas
