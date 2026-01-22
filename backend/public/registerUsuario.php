@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: application/json; charset=UTF-8");
-include "../db/conexion.php";
+require_once __DIR__ . '/../../db/conexion.php';
 
 $response = ["success" => false, "message" => ""];
 
@@ -39,6 +39,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (strlen($password) < 6 || strlen($password) > 12) {
         $response["message"] = "La contraseña debe tener entre 6 y 12 caracteres.";
+        echo json_encode($response);
+        exit;
+    }
+    if (preg_match('/\s/', $password)) {
+        $response["message"] = "La contraseña no puede contener espacios.";
+        echo json_encode($response);
+        exit;
+    }
+    if (preg_match('/(.)\1{2,}/', $password)) {
+        $response["message"] = "La contraseña contiene caracteres repetidos.";
+        echo json_encode($response);
+        exit;
+    }
+
+    if (!preg_match("/[!@#$%^*()_+\-=]/", $password)) {
+        $response["message"] = "La contraseña debe incluir al menos un símbolo.";
         echo json_encode($response);
         exit;
     }
@@ -84,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     echo json_encode($response);
 } else {
-    $response["message"] = "Método no permitido.";
+    $response["message"] = "Metodo no permitido.";
     echo json_encode($response);
 }
 ?>
