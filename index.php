@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -26,6 +27,14 @@
             <button>🔍</button>
         </div>
     </section>
+=======
+<?php
+require_once __DIR__ . '/config/app.php';
+session_start();
+
+
+$noFooterPages = ['login', 'registro'];
+>>>>>>> Stashed changes
 
     <section class="cards-container">
         <div class="card">
@@ -85,6 +94,7 @@
         </div>
     </section>
 
+<<<<<<< Updated upstream
     <footer>
         <div class="cols">
             <div>
@@ -111,3 +121,23 @@
     </footer>
 </body>
 </html>
+=======
+    case 'admin/cruds/index':
+        require PAGES_PATH . 'admin/cruds/index.php';
+        break;
+
+    case 'admin/cruds/crudUsuarios':
+        require PAGES_PATH . 'admin/cruds/crudUsuarios.php';
+        break;
+    default:
+        require PAGES_PATH . '404.php';
+        break;
+}
+
+// ===============================
+// FOOTER (condicional)
+// ===============================
+if (!in_array($page, $noFooterPages)) {
+    require COMPONENTS_PATH . 'footer.php';
+}
+>>>>>>> Stashed changes
