@@ -56,7 +56,7 @@ build/
 # Archivos sensibles
 # ========================
 backend/config/config.php
-backend/config/database.php
+backend/db/conexion.php
 
 # ========================
 # Uploads locales

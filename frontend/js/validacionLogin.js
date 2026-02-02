@@ -11,10 +11,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const datos = new FormData(form);
 
         try {
-            const res = await fetch("/VisioHome/backend/public/loginUsuario.php", {
-                method: "POST",
-                body: datos
-            });
+            const res = await fetch(
+                "/VisioHome/backend/controllers/AuthController.php?action=login",
+                {
+                    method: "POST",
+                    body: datos
+                }
+            );
+
 
             const text = await res.text(); // 👈 DEBUG CLAVE
             console.log("RESPUESTA BACKEND LOGIN:", text);
