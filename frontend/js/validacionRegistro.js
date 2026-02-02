@@ -1,4 +1,4 @@
-document.getElementById("registroForm").addEventListener("submit", function (e) {
+document.getElementById("registroForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const docUsuario = document.getElementById("docUsuario").value.trim();
@@ -13,17 +13,14 @@ document.getElementById("registroForm").addEventListener("submit", function (e) 
     mensaje.textContent = "";
     mensaje.style.color = "red";
 
-    // -----------------------
-    // VALIDAR CAMPOS VACÍOS
-    // -----------------------
+    // ===============================
+    // VALIDACIONES (TU LÓGICA ORIGINAL)
+    // ===============================
     if (!docUsuario || !nombre || !telefono || !correo || !direccion || !password || !confirmPassword) {
         mensaje.textContent = "Por favor, completa todos los campos.";
         return;
     }
 
-    // --------------------------------------------------
-    // VALIDACIÓN NUEVA: NO PERMITIR ESPACIOS EN CAMPOS
-    // --------------------------------------------------
     const camposSinEspacios = [
         { valor: docUsuario, nombre: "Documento" },
         { valor: telefono, nombre: "Teléfono" },
@@ -39,44 +36,28 @@ document.getElementById("registroForm").addEventListener("submit", function (e) 
         }
     }
 
-    // Nombre: permite espacios → NO aplicar la validación aquí
-    // Dirección: permite espacios → tampoco
-
-    // -----------------------
-    // VALIDACIONES NORMALES
-    // -----------------------
-
-    const docRegex = /^\d{6,12}$/;
-    if (!docRegex.test(docUsuario)) {
-        mensaje.textContent = "El documento debe tener entre 6 y 12 dígitos (solo números).";
+    if (!/^\d{6,12}$/.test(docUsuario)) {
+        mensaje.textContent = "El documento debe tener entre 6 y 12 dígitos.";
         return;
     }
 
-    const nombreRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{2,50}$/;
-    if (!nombreRegex.test(nombre)) {
-        mensaje.textContent = "El nombre solo puede contener letras y espacios, sin números.";
+    if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{2,50}$/.test(nombre)) {
+        mensaje.textContent = "El nombre solo puede contener letras y espacios.";
         return;
     }
 
-    const telefonoRegex = /^\d{10}$/;
-    if (!telefonoRegex.test(telefono)) {
-        mensaje.textContent = "El teléfono debe tener exactamente 10 dígitos.";
+    if (!/^\d{10}$/.test(telefono)) {
+        mensaje.textContent = "El teléfono debe tener 10 dígitos.";
         return;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(correo)) {
-        mensaje.textContent = "Usa un correo válido (ej.: usuario@dominio.com).";
-        return;
-    }
-    if (correo.includes("test@") || correo.includes("example.com")) {
-        mensaje.textContent = "Por favor, usa un correo real en lugar de uno de prueba.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
+        mensaje.textContent = "Correo inválido.";
         return;
     }
 
-    const direccionRegex = /^[A-Za-z0-9#\-\.\s]{3,100}$/;
-    if (!direccionRegex.test(direccion)) {
-        mensaje.textContent = "La dirección tiene caracteres inválidos o es demasiado corta.";
+    if (!/^[A-Za-z0-9#\-\.\s]{3,100}$/.test(direccion)) {
+        mensaje.textContent = "Dirección inválida.";
         return;
     }
 
@@ -85,37 +66,36 @@ document.getElementById("registroForm").addEventListener("submit", function (e) 
         return;
     }
 
-    const tieneMayuscula = /[A-Z]/.test(password);
-    const tieneMinuscula = /[a-z]/.test(password);
-    const tieneNumero = /\d/.test(password);
-    const tieneSimbolo = /[!@#$%^*()_+\-=]/.test(password);
-    const tieneRepetidos = /(.)\1{2,}/.test(password);
-
-    if (!tieneMayuscula || !tieneMinuscula || !tieneNumero || !tieneSimbolo) {
-        mensaje.textContent = "La contraseña debe incluir mayúsculas, minúsculas, números y al menos un símbolo.";
+    if (
+        !/[A-Z]/.test(password) ||
+        !/[a-z]/.test(password) ||
+        !/\d/.test(password) ||
+        !/[!@#$%^*()_+\-=]/.test(password)
+    ) {
+        mensaje.textContent = "La contraseña debe incluir mayúscula, minúscula, número y símbolo.";
         return;
     }
 
-    if (tieneRepetidos) {
-        mensaje.textContent = "Evita repetir un mismo carácter más de dos veces en la contraseña.";
+    if (/(.)\1{2,}/.test(password)) {
+        mensaje.textContent = "No repitas caracteres más de dos veces.";
         return;
     }
 
     if (password !== confirmPassword) {
-        mensaje.textContent = "Las contraseñas no coinciden. Revisa e intenta de nuevo.";
+        mensaje.textContent = "Las contraseñas no coinciden.";
         return;
     }
 
     if (password.includes(nombre.split(" ")[0]) || password.includes(docUsuario)) {
-        mensaje.textContent = "La contraseña no debe contener tu nombre ni tu número de documento.";
+        mensaje.textContent = "La contraseña no debe contener tu nombre ni documento.";
         return;
     }
 
-    // -----------------------
-    // ENVÍO FINAL
-    // -----------------------
+    // ===============================
+    // ENVÍO
+    // ===============================
     mensaje.style.color = "green";
-    mensaje.textContent = "Perfecto — todo está listo. Enviando los datos...";
+    mensaje.textContent = "Enviando datos...";
 
     const datos = new FormData();
     datos.append("docUsuario", docUsuario);
@@ -125,61 +105,37 @@ document.getElementById("registroForm").addEventListener("submit", function (e) 
     datos.append("direccion", direccion);
     datos.append("password", password);
 
-    const submitBtn = document.querySelector('#registroForm button[type="submit"]');
-    if (submitBtn) submitBtn.disabled = true;
+    const btn = document.querySelector('#registroForm button[type="submit"]');
+    if (btn) btn.disabled = true;
 
-    fetch("../..//backend/public/registerUsuario.php", {
-    method: "POST",
-    body: datos
-})
-
-    .then(async res => {
-        const contentType = res.headers.get('content-type') || '';
-        let body;
-        let rawText = '';
-
-        if (contentType.includes('application/json')) {
-            rawText = await res.text();
-            try {
-                body = JSON.parse(rawText);
-            } catch (err) {
-                body = rawText.replace(/<[^>]+>/g, '').trim();
+    try {
+        const res = await fetch(
+            "/VisioHome/backend/controllers/AuthController.php?action=register",
+            {
+                method: "POST",
+                body: datos
             }
-        } else {
-            rawText = await res.text();
-            body = rawText.replace(/<[^>]+>/g, '').trim();
-        }
+        );
 
-        if (!res.ok) {
-            const detalle = (typeof body === 'string') ? body : (body && body.message) ? body.message : JSON.stringify(body);
-            mensaje.style.color = 'red';
-            mensaje.textContent = `Error ${res.status} ${res.statusText}: ${detalle || 'Sin detalle'}`;
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+            mensaje.style.color = "red";
+            mensaje.textContent = data.message || "Error al registrarse.";
             return;
         }
 
-        let exitoso = false;
+        mensaje.style.color = "green";
+        mensaje.textContent = "Registro exitoso. Redirigiendo...";
 
-        if (typeof body === 'string') {
-            exitoso = /Registro exitoso|exitoso/i.test(body);
-        } else if (body && (body.success || body.message)) {
-            exitoso = !!body.success || /exitoso/i.test(String(body.message));
-        }
+        setTimeout(() => {
+            window.location.href = "/VisioHome/frontend/pages/login.php";
+        }, 1200);
 
-        if (exitoso) {
-            mensaje.style.color = 'green';
-            mensaje.textContent = 'Registro exitoso. Redirigiendo...';
-            setTimeout(() => window.location.href = '../pages/login.php', 1500);
-        } else {
-            const detalle = (typeof body === 'string') ? body : (body && (body.error || body.message)) ? (body.error || body.message) : JSON.stringify(body);
-            mensaje.style.color = 'red';
-            mensaje.textContent = detalle || 'Ocurrió un error al registrar. Intenta de nuevo.';
-        }
-    })
-    .catch(err => {
-        mensaje.style.color = 'red';
-        mensaje.textContent = `Error de conexión: ${err && err.message ? err.message : err}`;
-    })
-    .finally(() => {
-        if (submitBtn) submitBtn.disabled = false;
-    });
+    } catch (err) {
+        mensaje.style.color = "red";
+        mensaje.textContent = "Error de conexión con el servidor.";
+    } finally {
+        if (btn) btn.disabled = false;
+    }
 });

@@ -12,7 +12,7 @@ class Usuario
     }
 
     // ===============================
-    // LISTAR TODOS LOS USUARIOS
+    // LISTAR TODOS
     // ===============================
     public function obtenerTodos(): array
     {
@@ -28,64 +28,61 @@ class Usuario
                     bloqueadoHasta
                 FROM usuarios";
 
-        return $this->db
-            ->query($sql)
-            ->fetchAll(PDO::FETCH_ASSOC);
+        return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // ===============================
-    // CREAR USUARIO
+    // CREAR
     // ===============================
     public function crear(array $data): bool
     {
         $sql = "INSERT INTO usuarios (
-                    docUsuario,
-                    nombre,
-                    correo,
-                    telefono,
-                    direccion,
-                    password,
-                    idRol
+                    docUsuario, nombre, correo, telefono, direccion, password, idRol
                 ) VALUES (
-                    :docUsuario,
-                    :nombre,
-                    :correo,
-                    :telefono,
-                    :direccion,
-                    :password,
-                    :idRol
+                    :docUsuario, :nombre, :correo, :telefono, :direccion, :password, :idRol
                 )";
 
         $stmt = $this->db->prepare($sql);
 
         return $stmt->execute([
-            ':docUsuario' => $data['docUsuario'],
-            ':nombre'    => $data['nombre'],
-            ':correo'    => $data['correo'],
-            ':telefono'  => $data['telefono'] ?? null,
-            ':direccion' => $data['direccion'] ?? null,
-            ':password'  => password_hash($data['password'], PASSWORD_BCRYPT),
-            ':idRol'     => $data['idRol']
+            'docUsuario' => $data['docUsuario'],
+            'nombre'     => $data['nombre'],
+            'correo'     => $data['correo'],
+            'telefono'   => $data['telefono'] ?? null,
+            'direccion'  => $data['direccion'] ?? null,
+            'password'   => password_hash($data['password'], PASSWORD_BCRYPT),
+            'idRol'      => $data['idRol']
         ]);
     }
 
     // ===============================
-    // OBTENER USUARIO POR DOCUMENTO
+    // OBTENER POR DOCUMENTO
     // ===============================
     public function obtenerPorDocumento(string $docUsuario): array|false
     {
-        $sql = "SELECT * FROM usuarios WHERE docUsuario = :docUsuario";
-
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([
-            ':docUsuario' => $docUsuario
-        ]);
+        $stmt = $this->db->prepare(
+            "SELECT * FROM usuarios WHERE docUsuario = :docUsuario"
+        );
+        $stmt->execute(['docUsuario' => $docUsuario]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     // ===============================
-    // ACTUALIZAR USUARIO
+    // OBTENER POR CORREO (LOGIN)
+    // ===============================
+    public function obtenerPorCorreo(string $correo): array|false
+    {
+        $stmt = $this->db->prepare(
+            "SELECT * FROM usuarios WHERE correo = :correo"
+        );
+        $stmt->execute(['correo' => $correo]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // ===============================
+    // ACTUALIZAR
     // ===============================
     public function actualizar(array $data): bool
     {
@@ -101,41 +98,51 @@ class Usuario
         $stmt = $this->db->prepare($sql);
 
         return $stmt->execute([
-            ':nombre'     => $data['nombre'],
-            ':correo'     => $data['correo'],
-            ':telefono'   => $data['telefono'],
-            ':direccion'  => $data['direccion'],
-            ':idRol'      => $data['idRol'],
-            ':docUsuario' => $data['docUsuario']
+            'nombre'     => $data['nombre'],
+            'correo'     => $data['correo'],
+            'telefono'   => $data['telefono'],
+            'direccion'  => $data['direccion'],
+            'idRol'      => $data['idRol'],
+            'docUsuario' => $data['docUsuario']
         ]);
     }
 
     // ===============================
-    // ELIMINAR USUARIO
+    // ELIMINAR
     // ===============================
     public function eliminar(string $docUsuario): bool
     {
-        $sql = "DELETE FROM usuarios WHERE docUsuario = :docUsuario";
+        $stmt = $this->db->prepare(
+            "DELETE FROM usuarios WHERE docUsuario = :docUsuario"
+        );
 
-        $stmt = $this->db->prepare($sql);
-
-        return $stmt->execute([
-            ':docUsuario' => $docUsuario
-        ]);
+        return $stmt->execute(['docUsuario' => $docUsuario]);
     }
 
     // ===============================
-    // LOGIN (VALIDACIÓN)
+    // LOGIN – SEGURIDAD
     // ===============================
-    public function obtenerPorCorreo(string $correo): array|false
+    public function incrementarIntentos(string $correo): void
     {
-        $sql = "SELECT * FROM usuarios WHERE correo = :correo";
+        $this->db->prepare(
+            "UPDATE usuarios SET intentosFallidos = intentosFallidos + 1 WHERE correo = :correo"
+        )->execute(['correo' => $correo]);
+    }
 
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([
-            ':correo' => $correo
+    public function bloquear(string $correo, string $fecha): void
+    {
+        $this->db->prepare(
+            "UPDATE usuarios SET bloqueadoHasta = :fecha WHERE correo = :correo"
+        )->execute([
+            'fecha'  => $fecha,
+            'correo' => $correo
         ]);
+    }
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+    public function resetIntentos(string $correo): void
+    {
+        $this->db->prepare(
+            "UPDATE usuarios SET intentosFallidos = 0, bloqueadoHasta = NULL WHERE correo = :correo"
+        )->execute(['correo' => $correo]);
     }
 }

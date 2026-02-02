@@ -1,8 +1,4 @@
-<?php
-// Header global
-require COMPONENTS_PATH . 'header.php';
-?>
-
+<?php require_once COMPONENTS_PATH . 'header.php'; ?>
 <div class="registro-container">
     <h2 class="text-center mb-4">Crear una cuenta</h2>
     <form id="registroForm">
