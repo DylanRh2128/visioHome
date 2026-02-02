@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <?php include '../components/navbar.php'; ?>
+  <?php include '../src/includes/navbar.php'; ?>
 
   <div class="container mt-5 pt-5 text-center">
     <h2>Sobre Nosotros</h2>
