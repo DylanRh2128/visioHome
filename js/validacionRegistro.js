@@ -58,7 +58,7 @@ document.getElementById("registroForm").addEventListener("submit", function (e) 
         return;
     }
 
-    const telefonoRegex = /^\d{10}$ /;
+    const telefonoRegex = /^\d{10}$/;
     if (!telefonoRegex.test(telefono)) {
         mensaje.textContent = "El teléfono debe tener exactamente 10 dígitos.";
         return;
@@ -128,10 +128,11 @@ document.getElementById("registroForm").addEventListener("submit", function (e) 
     const submitBtn = document.querySelector('#registroForm button[type="submit"]');
     if (submitBtn) submitBtn.disabled = true;
 
-    fetch("/VisioHome/src/backend/registerUsuario.php", {
-        method: "POST",
-        body: datos
-    })
+    fetch("../..//backend/public/registerUsuario.php", {
+    method: "POST",
+    body: datos
+})
+
     .then(async res => {
         const contentType = res.headers.get('content-type') || '';
         let body;

@@ -1,11 +1,11 @@
 <div class="registro-container">
     <h2 class="text-center mb-4">Crear una cuenta</h2>
-
     <form id="registroForm">
 
         <div class="mb-3">
             <label for="docUsuario" class="form-label">Documento</label>
             <input type="text" class="form-control" name="docUsuario" id="docUsuario" placeholder="# Documento" required>
+
         </div>
 
         <div class="mb-3">
