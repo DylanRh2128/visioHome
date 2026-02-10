@@ -3,6 +3,10 @@
 use Illuminate\Support\Str;
 
 return [
+    'http_only' => true,
+    'same_site' => 'strict', // o 'lax'
+    'secure' => env('SESSION_SECURE_COOKIE', true),
+
 
     /*
     |--------------------------------------------------------------------------

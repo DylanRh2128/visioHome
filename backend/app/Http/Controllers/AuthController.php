@@ -23,8 +23,15 @@ class AuthController extends Controller
             ], 401);
         }
 
+        // 🔐 Revocar tokens anteriores (seguridad)
+        $usuario->tokens()->delete();
+
+        // 🔑 Crear token Sanctum
+        $token = $usuario->createToken('visiohome-api')->plainTextToken;
+
         return response()->json([
             'message' => 'Login exitoso',
+            'token' => $token,
             'usuario' => $usuario
         ]);
     }
@@ -43,7 +50,7 @@ class AuthController extends Controller
             'docUsuario' => $request->docUsuario,
             'nombre' => $request->nombre,
             'correo' => $request->correo,
-            'password' => Hash::make($request->password),
+            'password' => $request->password, // mutator hace el hash
             'idRol' => $request->idRol,
         ]);
 
@@ -51,5 +58,15 @@ class AuthController extends Controller
             'message' => 'Usuario registrado',
             'usuario' => $usuario
         ], 201);
+    }
+
+    // 🚪 Logout por token
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'message' => 'Token revocado'
+        ]);
     }
 }
