@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.3
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 22-01-2026 a las 17:24:03
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Host: localhost
+-- Generation Time: Feb 10, 2026 at 03:47 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `visiohome`
+-- Database: `visiohome`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `agentes`
+-- Table structure for table `agentes`
 --
 
 CREATE TABLE `agentes` (
@@ -37,10 +37,19 @@ CREATE TABLE `agentes` (
   `activo` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `agentes`
+--
+
+INSERT INTO `agentes` (`docAgente`, `nombre`, `direccion`, `correo`, `telefono`, `nitInmobiliaria`, `activo`) VALUES
+('1001234567', 'Ana Martínez', 'Calle 85 #12-34, Bogotá', 'ana.martinez@visiohome.com', '+57 300 123 4567', '900123456-1', 1),
+('1002345678', 'Roberto Silva', 'Carrera 15 #90-12, Bogotá', 'roberto.silva@visiohome.com', '+57 301 234 5678', '900123456-1', 1),
+('1003456789', 'Laura Gómez', 'Avenida 19 #120-45, Bogotá', 'laura.gomez@visiohome.com', '+57 302 345 6789', '900987654-2', 0);
+
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `citas`
+-- Table structure for table `citas`
 --
 
 CREATE TABLE `citas` (
@@ -58,7 +67,7 @@ CREATE TABLE `citas` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `comentarios_propiedad`
+-- Table structure for table `comentarios_propiedad`
 --
 
 CREATE TABLE `comentarios_propiedad` (
@@ -73,7 +82,7 @@ CREATE TABLE `comentarios_propiedad` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `inmobiliarias`
+-- Table structure for table `inmobiliarias`
 --
 
 CREATE TABLE `inmobiliarias` (
@@ -85,10 +94,37 @@ CREATE TABLE `inmobiliarias` (
   `objetivo` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `inmobiliarias`
+--
+
+INSERT INTO `inmobiliarias` (`nitInmobiliaria`, `nombre`, `correo`, `telefono`, `direccion`, `objetivo`) VALUES
+('900123456-1', 'VisioHome Inmobiliaria', 'contacto@visiohome.com', '+57 601 234 5678', 'Calle 100 #15-20, Bogotá', 'Líder en soluciones inmobiliarias con tecnología de realidad aumentada'),
+('900987654-2', 'Propiedades Premium', 'info@premiumprop.com', '+57 601 987 6543', 'Carrera 7 #80-45, Bogotá', 'Propiedades de lujo en las mejores zonas de la ciudad');
+
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `pagos`
+-- Table structure for table `migrations`
+--
+
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `migrations`
+--
+
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(1, '2026_02_09_212022_create_personal_access_tokens_table', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pagos`
 --
 
 CREATE TABLE `pagos` (
@@ -103,10 +139,45 @@ CREATE TABLE `pagos` (
   `fecha` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `pagos`
+--
+
+INSERT INTO `pagos` (`idPago`, `docUsuario`, `idPropiedad`, `idCita`, `monto`, `metodoPago`, `estado`, `referencia`, `fecha`) VALUES
+(7, '1033183120', 11, NULL, 1500000.00, 'transferencia', 'aprobado', 'FAC-001-2025', '2026-01-26 09:45:42'),
+(8, '1001111111', 12, NULL, 2300000.00, 'tarjeta', 'pendiente', 'FAC-002-2025', '2026-02-05 09:45:42'),
+(9, '1033183120', 13, NULL, 890000.00, 'efectivo', 'rechazado', 'FAC-003-2025', '2026-02-08 09:45:42');
+
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `propiedades`
+-- Table structure for table `personal_access_tokens`
+--
+
+CREATE TABLE `personal_access_tokens` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `tokenable_type` varchar(255) NOT NULL,
+  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
+  `name` text NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `abilities` text DEFAULT NULL,
+  `last_used_at` timestamp NULL DEFAULT NULL,
+  `expires_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `personal_access_tokens`
+--
+
+INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
+(1, 'App\\Models\\Usuario', 1033183120, 'visiohome-api', '8a454e68c10deed33195430b32b83d590976e51891a0b5f92e30c68bc407c190', '[\"*\"]', NULL, NULL, '2026-02-10 19:46:46', '2026-02-10 19:46:46');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `propiedades`
 --
 
 CREATE TABLE `propiedades` (
@@ -123,10 +194,21 @@ CREATE TABLE `propiedades` (
   `actualizado_en` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `propiedades`
+--
+
+INSERT INTO `propiedades` (`idPropiedad`, `titulo`, `descripcion`, `ubicacion`, `tamano_m2`, `precio`, `estado`, `tipo`, `nitInmobiliaria`, `creado_en`, `actualizado_en`) VALUES
+(11, 'Apartamento Moderno en Chapinero', 'Hermoso apartamento de 3 habitaciones con acabados de lujo.', 'Chapinero, Bogotá', 85.00, 450000000.00, 'disponible', 'apartamento', '900123456-1', '2026-02-10 09:45:42', '2026-02-10 09:45:42'),
+(12, 'Casa Campestre en La Calera', 'Casa campestre con 4 habitaciones y zona BBQ.', 'La Calera, Cundinamarca', 220.00, 850000000.00, 'vendida', 'casa', '900123456-1', '2026-02-10 09:45:42', '2026-02-10 09:45:42'),
+(13, 'Oficina en Zona Rosa', 'Oficina moderna en el corazón de la Zona Rosa.', 'Zona Rosa, Bogotá', 65.00, 320000000.00, 'arrendada', 'oficina', '900987654-2', '2026-02-10 09:45:42', '2026-02-10 09:45:42'),
+(14, 'Apartamento Familiar en Cedritos', 'Apartamento amplio ideal para familia.', 'Cedritos, Bogotá', 95.00, 380000000.00, 'disponible', 'apartamento', '900123456-1', '2026-02-10 09:45:42', '2026-02-10 09:45:42'),
+(15, 'Local Comercial en Suba', 'Local comercial en zona de alto tráfico.', 'Suba, Bogotá', 120.00, 280000000.00, 'reservada', 'local', '900987654-2', '2026-02-10 09:45:42', '2026-02-10 09:45:42');
+
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `propiedad_imagenes`
+-- Table structure for table `propiedad_imagenes`
 --
 
 CREATE TABLE `propiedad_imagenes` (
@@ -140,7 +222,7 @@ CREATE TABLE `propiedad_imagenes` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `roles`
+-- Table structure for table `roles`
 --
 
 CREATE TABLE `roles` (
@@ -149,7 +231,7 @@ CREATE TABLE `roles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `roles`
+-- Dumping data for table `roles`
 --
 
 INSERT INTO `roles` (`idRol`, `nombre`) VALUES
@@ -160,7 +242,7 @@ INSERT INTO `roles` (`idRol`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuarios`
+-- Table structure for table `usuarios`
 --
 
 CREATE TABLE `usuarios` (
@@ -178,19 +260,21 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `usuarios`
+-- Dumping data for table `usuarios`
 --
 
 INSERT INTO `usuarios` (`docUsuario`, `nombre`, `correo`, `telefono`, `direccion`, `password`, `idRol`, `creado_en`, `actualizado_en`, `intentosFallidos`, `bloqueadoHasta`) VALUES
-('1033183120', 'Dylan Rios', 'dylanrios211@gmail.com', '3135057694', 'crra 31 #75c-44', '$2y$10$N9yjvq82BP6rX8h.7b2Quea6z8OS1a1TSHyfIx0LY9M3lGrjvafma', 1, '2026-01-19 12:38:24', NULL, 0, NULL),
-('1038263414', 'rios', 'dylanrios@gmail.com', '3006817510', 'calle 31#75c-44', '$2y$10$NKTfPixVnLefzXaBXtvJ/.bp5k/DWX3QY7BsUbNSePhRCA/rwCrFa', 2, '2026-01-20 16:40:49', NULL, 0, NULL);
+('1001111111', 'Juan Pérez', 'juan.perez@example.com', '3001234567', 'Calle 50 #10-20', '$2y$10$NKTfPixVnLefzXaBXtvJ/.bp5k/DWX3QY7BsUbNSePhRCA/rwCrFa', 2, '2026-02-10 09:42:13', NULL, 0, NULL),
+('1002222222', 'María García', 'maria.garcia@example.com', '3009876543', 'Avenida 68 #45-30', '$2y$10$NKTfPixVnLefzXaBXtvJ/.bp5k/DWX3QY7BsUbNSePhRCA/rwCrFa', 3, '2026-02-10 09:42:13', NULL, 0, NULL),
+('1003333333', 'Carlos López', 'carlos.lopez@example.com', '3015551234', 'Carrera 15 #80-10', '$2y$10$NKTfPixVnLefzXaBXtvJ/.bp5k/DWX3QY7BsUbNSePhRCA/rwCrFa', 2, '2026-02-10 09:42:13', NULL, 0, NULL),
+('1033183120', 'Dylan Rios', 'dylanrios211@gmail.com', '3135057694', 'Carrera 31 #75c-44', '$2y$10$N9yjvq82BP6rX8h.7b2Quea6z8OS1a1TSHyfIx0LY9M3lGrjvafma', 1, '2026-02-10 09:42:13', NULL, 0, NULL);
 
 --
--- Índices para tablas volcadas
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `agentes`
+-- Indexes for table `agentes`
 --
 ALTER TABLE `agentes`
   ADD PRIMARY KEY (`docAgente`),
@@ -198,7 +282,7 @@ ALTER TABLE `agentes`
   ADD KEY `fk_agente_inmobiliaria` (`nitInmobiliaria`);
 
 --
--- Indices de la tabla `citas`
+-- Indexes for table `citas`
 --
 ALTER TABLE `citas`
   ADD PRIMARY KEY (`idCita`),
@@ -207,7 +291,7 @@ ALTER TABLE `citas`
   ADD KEY `fk_cita_agente` (`docAgente`);
 
 --
--- Indices de la tabla `comentarios_propiedad`
+-- Indexes for table `comentarios_propiedad`
 --
 ALTER TABLE `comentarios_propiedad`
   ADD PRIMARY KEY (`idComentario`),
@@ -215,14 +299,20 @@ ALTER TABLE `comentarios_propiedad`
   ADD KEY `fk_coment_usuario` (`docUsuario`);
 
 --
--- Indices de la tabla `inmobiliarias`
+-- Indexes for table `inmobiliarias`
 --
 ALTER TABLE `inmobiliarias`
   ADD PRIMARY KEY (`nitInmobiliaria`),
   ADD UNIQUE KEY `correo` (`correo`);
 
 --
--- Indices de la tabla `pagos`
+-- Indexes for table `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `pagos`
 --
 ALTER TABLE `pagos`
   ADD PRIMARY KEY (`idPago`),
@@ -232,28 +322,37 @@ ALTER TABLE `pagos`
   ADD KEY `fk_pago_cita` (`idCita`);
 
 --
--- Indices de la tabla `propiedades`
+-- Indexes for table `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
+  ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`),
+  ADD KEY `personal_access_tokens_expires_at_index` (`expires_at`);
+
+--
+-- Indexes for table `propiedades`
 --
 ALTER TABLE `propiedades`
   ADD PRIMARY KEY (`idPropiedad`),
   ADD KEY `fk_prop_inmobiliaria` (`nitInmobiliaria`);
 
 --
--- Indices de la tabla `propiedad_imagenes`
+-- Indexes for table `propiedad_imagenes`
 --
 ALTER TABLE `propiedad_imagenes`
   ADD PRIMARY KEY (`idImagen`),
   ADD KEY `fk_img_propiedad` (`idPropiedad`);
 
 --
--- Indices de la tabla `roles`
+-- Indexes for table `roles`
 --
 ALTER TABLE `roles`
   ADD PRIMARY KEY (`idRol`),
   ADD UNIQUE KEY `nombre` (`nombre`);
 
 --
--- Indices de la tabla `usuarios`
+-- Indexes for table `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`docUsuario`),
@@ -261,57 +360,69 @@ ALTER TABLE `usuarios`
   ADD KEY `fk_usuarios_roles` (`idRol`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `citas`
+-- AUTO_INCREMENT for table `citas`
 --
 ALTER TABLE `citas`
   MODIFY `idCita` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `comentarios_propiedad`
+-- AUTO_INCREMENT for table `comentarios_propiedad`
 --
 ALTER TABLE `comentarios_propiedad`
   MODIFY `idComentario` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `pagos`
+-- AUTO_INCREMENT for table `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `idPago` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `idPago` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT de la tabla `propiedades`
+-- AUTO_INCREMENT for table `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `propiedades`
 --
 ALTER TABLE `propiedades`
-  MODIFY `idPropiedad` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `idPropiedad` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
--- AUTO_INCREMENT de la tabla `propiedad_imagenes`
+-- AUTO_INCREMENT for table `propiedad_imagenes`
 --
 ALTER TABLE `propiedad_imagenes`
   MODIFY `idImagen` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `roles`
+-- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
   MODIFY `idRol` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- Restricciones para tablas volcadas
+-- Constraints for dumped tables
 --
 
 --
--- Filtros para la tabla `agentes`
+-- Constraints for table `agentes`
 --
 ALTER TABLE `agentes`
   ADD CONSTRAINT `fk_agente_inmobiliaria` FOREIGN KEY (`nitInmobiliaria`) REFERENCES `inmobiliarias` (`nitInmobiliaria`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `citas`
+-- Constraints for table `citas`
 --
 ALTER TABLE `citas`
   ADD CONSTRAINT `fk_cita_agente` FOREIGN KEY (`docAgente`) REFERENCES `agentes` (`docAgente`),
@@ -319,14 +430,14 @@ ALTER TABLE `citas`
   ADD CONSTRAINT `fk_cita_usuario` FOREIGN KEY (`docUsuario`) REFERENCES `usuarios` (`docUsuario`);
 
 --
--- Filtros para la tabla `comentarios_propiedad`
+-- Constraints for table `comentarios_propiedad`
 --
 ALTER TABLE `comentarios_propiedad`
   ADD CONSTRAINT `fk_coment_propiedad` FOREIGN KEY (`idPropiedad`) REFERENCES `propiedades` (`idPropiedad`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_coment_usuario` FOREIGN KEY (`docUsuario`) REFERENCES `usuarios` (`docUsuario`);
 
 --
--- Filtros para la tabla `pagos`
+-- Constraints for table `pagos`
 --
 ALTER TABLE `pagos`
   ADD CONSTRAINT `fk_pago_cita` FOREIGN KEY (`idCita`) REFERENCES `citas` (`idCita`),
@@ -334,19 +445,19 @@ ALTER TABLE `pagos`
   ADD CONSTRAINT `fk_pago_usuario` FOREIGN KEY (`docUsuario`) REFERENCES `usuarios` (`docUsuario`);
 
 --
--- Filtros para la tabla `propiedades`
+-- Constraints for table `propiedades`
 --
 ALTER TABLE `propiedades`
   ADD CONSTRAINT `fk_prop_inmobiliaria` FOREIGN KEY (`nitInmobiliaria`) REFERENCES `inmobiliarias` (`nitInmobiliaria`);
 
 --
--- Filtros para la tabla `propiedad_imagenes`
+-- Constraints for table `propiedad_imagenes`
 --
 ALTER TABLE `propiedad_imagenes`
   ADD CONSTRAINT `fk_img_propiedad` FOREIGN KEY (`idPropiedad`) REFERENCES `propiedades` (`idPropiedad`) ON DELETE CASCADE;
 
 --
--- Filtros para la tabla `usuarios`
+-- Constraints for table `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD CONSTRAINT `fk_usuarios_roles` FOREIGN KEY (`idRol`) REFERENCES `roles` (`idRol`);

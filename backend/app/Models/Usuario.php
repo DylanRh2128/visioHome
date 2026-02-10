@@ -2,19 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class Usuario extends Model
+class Usuario extends Authenticatable
 {
+    use HasApiTokens, Notifiable;
+
     protected $table = 'usuarios';
 
-    // PK no estándar
     protected $primaryKey = 'docUsuario';
     public $incrementing = false;
     protected $keyType = 'string';
 
-    // Tus columnas de tiempo personalizadas
     const CREATED_AT = 'creado_en';
     const UPDATED_AT = 'actualizado_en';
 
@@ -34,9 +36,6 @@ class Usuario extends Model
         'password'
     ];
 
-    // ===============================
-    // MUTATORS (reemplaza password_hash)
-    // ===============================
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = Hash::make($value);

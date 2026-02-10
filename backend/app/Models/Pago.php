@@ -7,9 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Pago extends Model
 {
     protected $table = 'pagos';
-
     protected $primaryKey = 'idPago';
-
     public $timestamps = false;
 
     protected $fillable = [
@@ -19,6 +17,13 @@ class Pago extends Model
         'monto',
         'metodoPago',
         'estado',
-        'referencia'
+        'referencia',
+        'fecha',
     ];
+
+    // Relación: un pago pertenece a una propiedad
+    public function propiedad()
+    {
+        return $this->belongsTo(Propiedad::class, 'idPropiedad', 'idPropiedad');
+    }
 }

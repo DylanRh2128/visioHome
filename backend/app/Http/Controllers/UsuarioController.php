@@ -4,57 +4,177 @@ namespace App\Http\Controllers;
 
 use App\Models\Usuario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UsuarioController extends Controller
 {
-    // ===============================
-    // LISTAR TODOS
-    // ===============================
-    public function index()
+    /**
+     * Listar todos los usuarios
+     */
+    public function index(Request $request)
     {
-        return response()->json(
-            Usuario::all()
-        );
+        try {
+            $query = Usuario::query();
+
+            // Filtro por búsqueda
+            if ($request->has('search')) {
+                $search = $request->search;
+                $query->where(function($q) use ($search) {
+                    $q->where('nombre', 'like', "%{$search}%")
+                      ->orWhere('correo', 'like', "%{$search}%")
+                      ->orWhere('docUsuario', 'like', "%{$search}%");
+                });
+            }
+
+            // Filtro por rol
+            if ($request->has('idRol')) {
+                $query->where('idRol', $request->idRol);
+            }
+
+            $usuarios = $query->orderBy('creado_en', 'desc')->get();
+
+            // Agregar nombre del rol
+            $usuarios->map(function($usuario) {
+                $roles = [1 => 'Admin', 2 => 'Cliente', 3 => 'Agente'];
+                $usuario->nombreRol = $roles[$usuario->idRol] ?? 'Desconocido';
+                $usuario->estado = $usuario->bloqueadoHasta && $usuario->bloqueadoHasta > now() 
+                    ? 'Inactivo' 
+                    : 'Activo';
+                return $usuario;
+            });
+
+            return response()->json($usuarios, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error al obtener usuarios',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
-    // ===============================
-    // CREAR
-    // ===============================
+    /**
+     * Crear nuevo usuario
+     */
     public function store(Request $request)
     {
-        $usuario = Usuario::create($request->all());
+        try {
+            $validator = Validator::make($request->all(), [
+                'docUsuario' => 'required|string|max:20|unique:usuarios,docUsuario',
+                'nombre' => 'required|string|max:120',
+                'correo' => 'required|email|max:180|unique:usuarios,correo',
+                'telefono' => 'nullable|string|max:30',
+                'direccion' => 'nullable|string|max:200',
+                'password' => 'required|string|min:6',
+                'idRol' => 'required|integer|in:1,2,3'
+            ]);
 
-        return response()->json($usuario, 201);
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => 'Error de validación',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $usuario = Usuario::create($request->all());
+
+            return response()->json([
+                'message' => 'Usuario creado exitosamente',
+                'usuario' => $usuario
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error al crear usuario',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
-    // ===============================
-    // OBTENER POR DOCUMENTO
-    // ===============================
-    public function show($docUsuario)
+    /**
+     * Obtener un usuario específico
+     */
+    public function show($id)
     {
-        return response()->json(
-            Usuario::findOrFail($docUsuario)
-        );
+        try {
+            $usuario = Usuario::findOrFail($id);
+            
+            $roles = [1 => 'Admin', 2 => 'Cliente', 3 => 'Agente'];
+            $usuario->nombreRol = $roles[$usuario->idRol] ?? 'Desconocido';
+            $usuario->estado = $usuario->bloqueadoHasta && $usuario->bloqueadoHasta > now() 
+                ? 'Inactivo' 
+                : 'Activo';
+
+            return response()->json($usuario, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Usuario no encontrado',
+                'error' => $e->getMessage()
+            ], 404);
+        }
     }
 
-    // ===============================
-    // ACTUALIZAR
-    // ===============================
-    public function update(Request $request, $docUsuario)
+    /**
+     * Actualizar usuario
+     */
+    public function update(Request $request, $id)
     {
-        $usuario = Usuario::findOrFail($docUsuario);
-        $usuario->update($request->all());
+        try {
+            $usuario = Usuario::findOrFail($id);
 
-        return response()->json($usuario);
+            $validator = Validator::make($request->all(), [
+                'nombre' => 'sometimes|required|string|max:120',
+                'correo' => 'sometimes|required|email|max:180|unique:usuarios,correo,' . $id . ',docUsuario',
+                'telefono' => 'nullable|string|max:30',
+                'direccion' => 'nullable|string|max:200',
+                'password' => 'nullable|string|min:6',
+                'idRol' => 'sometimes|required|integer|in:1,2,3'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => 'Error de validación',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $data = $request->except('docUsuario'); // No permitir cambiar el documento
+            
+            // Solo actualizar password si se envía
+            if (!$request->has('password') || empty($request->password)) {
+                unset($data['password']);
+            }
+
+            $usuario->update($data);
+
+            return response()->json([
+                'message' => 'Usuario actualizado exitosamente',
+                'usuario' => $usuario
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error al actualizar usuario',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
-    // ===============================
-    // ELIMINAR
-    // ===============================
-    public function destroy($docUsuario)
+    /**
+     * Eliminar usuario
+     */
+    public function destroy($id)
     {
-        Usuario::destroy($docUsuario);
+        try {
+            $usuario = Usuario::findOrFail($id);
+            $usuario->delete();
 
-        return response()->json(null, 204);
+            return response()->json([
+                'message' => 'Usuario eliminado exitosamente'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error al eliminar usuario',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }
