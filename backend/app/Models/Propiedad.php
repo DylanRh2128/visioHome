@@ -7,11 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Propiedad extends Model
 {
     protected $table = 'propiedades';
-
     protected $primaryKey = 'idPropiedad';
-
-    const CREATED_AT = 'creado_en';
-    const UPDATED_AT = 'actualizado_en';
+    public $timestamps = false;
 
     protected $fillable = [
         'titulo',
@@ -21,6 +18,14 @@ class Propiedad extends Model
         'precio',
         'estado',
         'tipo',
-        'nitInmobiliaria'
+        'nitInmobiliaria',
+        'creado_en',
+        'actualizado_en',
     ];
+
+    // Relación: una propiedad tiene muchos pagos
+    public function pagos()
+    {
+        return $this->hasMany(Pago::class, 'idPropiedad', 'idPropiedad');
+    }
 }
