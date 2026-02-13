@@ -1,11 +1,11 @@
 import api from './api';
 
 const propiedadService = {
-    // Obtener todas las propiedades
-    getAll: async (search = '') => {
+    // Obtener todas las propiedades con filtros
+    getAll: async (params = {}) => {
         try {
             const response = await api.get('/propiedades', {
-                params: { search }
+                params: params
             });
             return response.data;
         } catch (error) {
