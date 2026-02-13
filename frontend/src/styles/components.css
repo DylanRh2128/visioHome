@@ -1,0 +1,95 @@
+/* 🧊 VisioHome Premium Components */
+
+/* Cards & Panels */
+.premium-card {
+    background: var(--bg-white);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition-smooth);
+}
+
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-premium);
+}
+
+.kpi-card {
+    background: var(--bg-white);
+    border-left: 4px solid var(--primary-vino);
+    padding: 1.25rem;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Buttons */
+.premium-btn {
+    background: var(--primary-vino);
+    color: var(--text-white) !important;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    transition: var(--transition-smooth);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.premium-btn:hover {
+    background: var(--primary-vino-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(107, 0, 0, 0.2);
+}
+
+.premium-btn-outline {
+    background: transparent;
+    border: 1px solid var(--primary-vino);
+    color: var(--primary-vino) !important;
+}
+
+.premium-btn-outline:hover {
+    background: var(--primary-vino);
+    color: var(--text-white) !important;
+}
+
+/* Form Inputs */
+.premium-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid #dee2e6;
+    background: var(--bg-white);
+    transition: var(--transition-smooth);
+}
+
+.premium-input:focus {
+    outline: none;
+    border-color: var(--primary-vino);
+    box-shadow: 0 0 0 3px rgba(107, 0, 0, 0.1);
+}
+
+.glass-input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    color: var(--text-white);
+}
+
+/* Titles */
+.section-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--primary-vino);
+    margin-bottom: 2rem;
+    letter-spacing: -0.5px;
+}

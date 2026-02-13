@@ -1,68 +1,78 @@
-import { TrendingUp, Filter, Calendar } from "lucide-react";
+import { TrendingUp, Filter, Calendar, BarChart3 } from "lucide-react";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import "../../styles/theme.css";
 
-export default function ChartCard() {
-  const months = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul"];
-  const data1 = [40, 30, 60, 45, 80, 55, 75];
-  const data2 = [25, 20, 40, 30, 60, 40, 50];
+export default function ChartCard({ charts, loading, period }) {
+  const data = charts?.ventasPorTiempo ?? [];
+  const hasData = data && data.length > 0;
 
   return (
-    <div className="glass-card" style={{ margin: 0 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
+    <div className="premium-card h-100 d-flex flex-column animate-fade-up">
+      <div className="d-flex justify-content-between align-items-center mb-5">
         <div>
-          <h3 style={{ margin: '0 0 4px', fontSize: '18px', fontWeight: '700' }}>Actividad de Negocios</h3>
-          <p style={{ margin: 0, fontSize: '13px', color: 'var(--text-muted)' }}>Comparativa mensual de cierres y visitas</p>
-        </div>
-        <div style={{ display: 'flex', gap: '10px' }}>
-          <button className="premium-btn-secondary" style={{ padding: '8px 12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Calendar size={14} />
-            <span>Mensual</span>
-          </button>
-          <button className="premium-btn-secondary" style={{ padding: '8px 12px' }}>
-            <Filter size={14} />
-          </button>
-        </div>
-      </div>
-
-      <div style={{
-        height: '220px',
-        display: 'flex',
-        alignItems: 'flex-end',
-        justifyContent: 'space-between',
-        padding: '0 10px 20px',
-        borderBottom: '1px solid var(--border-grey)'
-      }}>
-        {months.map((m, i) => (
-          <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', flex: 1 }}>
-            <div style={{ display: 'flex', gap: '4px', alignItems: 'flex-end', height: '180px' }}>
-              <div style={{
-                width: '12px',
-                height: `${data1[i]}%`,
-                backgroundColor: 'var(--primary-red)',
-                borderRadius: '4px 4px 0 0',
-                transition: 'height 0.6s ease'
-              }} />
-              <div style={{
-                width: '12px',
-                height: `${data2[i]}%`,
-                backgroundColor: '#e9ecef',
-                borderRadius: '4px 4px 0 0',
-                transition: 'height 0.8s ease'
-              }} />
-            </div>
-            <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: '600' }}>{m}</span>
+          <div className="d-flex align-items-center gap-2 mb-1">
+            <BarChart3 size={20} color="var(--primary-vino)" />
+            <h3 className="h5 fw-bold mb-0">Rendimiento Operativo</h3>
           </div>
-        ))}
+          <p className="text-muted small mb-0">Flujo de caja por periodo de tiempo</p>
+        </div>
+        <div className="badge rounded-pill px-3 py-2 text-uppercase fw-bold"
+          style={{ background: "rgba(107, 0, 0, 0.05)", color: "var(--primary-vino)", letterSpacing: "1px", fontSize: "10px" }}>
+          Vista {period === 'year' ? 'Anual' : period === 'month' ? 'Mensual' : period === 'week' ? 'Semanal' : 'Diaria'}
+        </div>
       </div>
 
-      <div style={{ display: 'flex', gap: '20px', marginTop: '16px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div style={{ width: '10px', height: '10px', borderRadius: '2px', backgroundColor: 'var(--primary-red)' }} />
-          <span style={{ fontSize: '12px', color: '#555' }}>Propiedades Vendidas</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div style={{ width: '10px', height: '10px', borderRadius: '2px', backgroundColor: '#e9ecef' }} />
-          <span style={{ fontSize: '12px', color: '#555' }}>Visitas Registradas</span>
+      <div className="flex-grow-1" style={{ minHeight: '300px' }}>
+        {loading ? (
+          <div className="h-100 d-flex align-items-center justify-content-center">
+            <div className="spinner-border text-danger" role="status"></div>
+          </div>
+        ) : !hasData ? (
+          <div className="h-100 d-flex flex-column align-items-center justify-content-center bg-light rounded-3 border border-dashed">
+            <TrendingUp size={48} className="text-muted opacity-25 mb-3" />
+            <p className="text-muted fw-semibold small">Sin registros en este periodo</p>
+          </div>
+        ) : (
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={data}>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+              <XAxis
+                dataKey="label"
+                axisLine={false}
+                tickLine={false}
+                tick={{ fontSize: 11, fill: '#999', fontWeight: '500' }}
+              />
+              <YAxis
+                axisLine={false}
+                tickLine={false}
+                tick={{ fontSize: 11, fill: '#999', fontWeight: '500' }}
+                tickFormatter={(value) => `$${value >= 1000 ? (value / 1000).toFixed(0) + 'k' : value}`}
+              />
+              <Tooltip
+                cursor={{ fill: 'rgba(107, 0, 0, 0.03)' }}
+                contentStyle={{
+                  borderRadius: 'var(--radius-md)',
+                  border: 'none',
+                  boxShadow: 'var(--shadow-premium)',
+                  padding: '12px'
+                }}
+                formatter={(value) => [`$${(value || 0).toLocaleString()}`, 'Total Acumulado']}
+              />
+              <Bar
+                dataKey="value"
+                fill="var(--primary-vino)"
+                radius={[6, 6, 0, 0]}
+                barSize={30}
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        )}
+      </div>
+
+      <div className="mt-4 pt-3 border-top d-flex align-items-center gap-3">
+        <div className="d-flex align-items-center gap-2">
+          <div className="rounded-circle" style={{ width: '8px', height: '8px', background: 'var(--primary-vino)' }}></div>
+          <span className="text-muted small fw-medium">Ingresos</span>
         </div>
       </div>
     </div>

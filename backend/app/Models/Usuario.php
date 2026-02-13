@@ -28,13 +28,31 @@ class Usuario extends Authenticatable
         'direccion',
         'password',
         'idRol',
+        'genero',
+        'login_count',
         'intentosFallidos',
-        'bloqueadoHasta'
+        'bloqueadoHasta',
+        'avatar'
     ];
 
     protected $hidden = [
         'password'
     ];
+
+    /**
+     * Virtual attribute 'rol' for frontend identification
+     */
+    protected $appends = ['rol'];
+
+    public function getRolAttribute()
+    {
+        $roles = [
+            1 => 'admin',
+            2 => 'user',
+            3 => 'agente'
+        ];
+        return $roles[$this->idRol] ?? 'user';
+    }
 
     public function setPasswordAttribute($value)
     {
