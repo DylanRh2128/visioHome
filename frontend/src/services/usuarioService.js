@@ -23,20 +23,17 @@ const usuarioService = {
         }
     },
 
-    // Crear nuevo usuario
-    create: async (data) => {
-        try {
-            const response = await api.post('/usuarios', data);
-            return response.data;
-        } catch (error) {
-            throw error.response?.data || error;
-        }
-    },
-
-    // Actualizar usuario
+    // Actualizar usuario (soporta FormData para imágenes)
     update: async (id, data) => {
         try {
-            const response = await api.put(`/usuarios/${id}`, data);
+            const headers = data instanceof FormData
+                ? { 'Content-Type': 'multipart/form-data' }
+                : { 'Content-Type': 'application/json' };
+
+            const response = await api.post(`/usuarios/${id}`, data, {
+                headers,
+                params: { _method: 'PUT' } // Laravel spoofing for PUT with FormData
+            });
             return response.data;
         } catch (error) {
             throw error.response?.data || error;

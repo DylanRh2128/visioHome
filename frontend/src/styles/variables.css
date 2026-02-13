@@ -1,0 +1,42 @@
+/* 🎨 VisioHome Design System Tokens */
+:root {
+    /* Colors - Corporate Vino Palette */
+    --primary-vino: #6b0000;
+    --primary-vino-rgb: 107, 0, 0;
+    --primary-vino-dark: #4d0000;
+    --accent-red: #ff4d4d;
+
+    --bg-light: #f8f9fa;
+    --bg-white: #ffffff;
+    --bg-dark: #0f0f0f;
+
+    --text-main: #1e1e1e;
+    --text-muted: #6c757d;
+    --text-light: #f8f9fa;
+    --text-white: #ffffff;
+
+    /* Effects */
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-blur: blur(12px);
+
+    --shadow-soft: 0 8px 30px rgba(0, 0, 0, 0.05);
+    --shadow-premium: 0 20px 40px rgba(0, 0, 0, 0.1);
+
+    /* Layout */
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Typography */
+    --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+    background-color: var(--bg-light);
+    color: var(--text-main);
+    font-family: var(--font-main);
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+}

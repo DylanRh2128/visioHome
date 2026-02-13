@@ -32,7 +32,12 @@ api.interceptors.response.use(
       // Token expirado o inválido, o intento de acceso sin token
       localStorage.removeItem("token");
       localStorage.removeItem("user");
-      window.location.href = "/login";
+
+      // Evitar redirección infinita si ya estamos en login o registro
+      const path = window.location.pathname;
+      if (path !== "/login" && path !== "/registro") {
+        window.location.href = "/login";
+      }
     }
 
     return Promise.reject(error);
