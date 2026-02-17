@@ -88,7 +88,7 @@ const StatsGrid = ({ stats }) => {
                             <div className="d-flex align-items-center justify-content-between p-3 rounded-4" style={{ background: 'rgba(255,255,255,0.03)' }}>
                                 <div className="d-flex align-items-center gap-3">
                                     <div style={{ width: 45, height: 45, background: 'rgba(107,0,0,0.2)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', color: 'var(--accent-red)' }}>
-                                        {rankings.topAgente.nombre.charAt(0)}
+                                        {rankings.topAgente.nombre?.charAt(0) || 'A'}
                                     </div>
                                     <div>
                                         <div className="text-white font-weight-bold">{rankings.topAgente.nombre}</div>

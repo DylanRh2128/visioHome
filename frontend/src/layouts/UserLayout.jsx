@@ -2,18 +2,14 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import {
     Shield,
-    Home,
-    Search,
     ShoppingCart,
-    Calendar,
-    User,
-    LogOut,
-    Box
+    LogOut
 } from "lucide-react";
-import "../styles/theme.css";
+import { useCart } from "../context/CartContext";
 
 export default function UserLayout() {
     const { user, logout } = useAuth();
+    const { cart } = useCart();
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -22,74 +18,113 @@ export default function UserLayout() {
     };
 
     return (
-        <div className="bg-white min-h-screen flex flex-col">
-            {/* Minimalist User Navbar */}
-            <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-20">
-                        <div className="flex items-center gap-8">
-                            <Link to="/user/dashboard" className="flex items-center gap-2 no-underline">
-                                <Shield className="text-[#6b0000]" size={28} />
-                                <span className="text-xl font-extrabold tracking-tighter text-gray-900">VisioHome</span>
-                            </Link>
+        <div className="min-vh-100 d-flex flex-column bg-light w-100 position-relative">
 
-                            <div className="hidden md:ml-6 md:flex md:space-x-8">
-                                <Link to="/user/dashboard" className="inline-flex items-center px-1 pt-1 text-sm font-semibold text-gray-900 border-b-2 border-transparent hover:border-[#6b0000] focus:outline-none transition-all no-underline">
-                                    Dashboard
-                                </Link>
-                                <Link to="/user/properties" className="inline-flex items-center px-1 pt-1 text-sm font-semibold text-gray-500 hover:text-gray-900 border-b-2 border-transparent hover:border-[#6b0000] focus:outline-none transition-all no-underline">
-                                    Explorar
-                                </Link>
-                                <Link to="/user/appointments" className="inline-flex items-center px-1 pt-1 text-sm font-semibold text-gray-500 hover:text-gray-900 border-b-2 border-transparent hover:border-[#6b0000] focus:outline-none transition-all no-underline">
-                                    Mis Citas
-                                </Link>
-                                <Link to="/user/3d" className="inline-flex items-center px-1 pt-1 text-sm font-semibold text-gray-500 hover:text-gray-900 border-b-2 border-transparent hover:border-[#6b0000] focus:outline-none transition-all no-underline">
-                                    Exploración 3D
-                                </Link>
+            {/* NAVBAR */}
+            <nav className="navbar navbar-expand-md navbar-light bg-white border-bottom sticky-top shadow-sm px-lg-4" style={{ backdropFilter: 'blur(10px)', backgroundColor: 'rgba(255, 255, 255, 0.9) !important' }}>
+                <div className="container-fluid">
+
+                    {/* LOGO */}
+                    <Link
+                        to="/user/dashboard"
+                        className="navbar-brand d-flex align-items-center gap-2 text-decoration-none"
+                    >
+                        <Shield className="text-danger" size={26} style={{ color: '#6b0000' }} />
+                        <span className="fw-bolder tracking-tight text-dark h4 mb-0">
+                            VisioHome
+                        </span>
+                    </Link>
+
+                    {/* NAV LINKS */}
+                    <div className="collapse navbar-collapse justify-content-center" id="userNavbar">
+                        <div className="navbar-nav gap-lg-4">
+                            <Link
+                                to="/user/dashboard"
+                                className="nav-link fw-semibold text-secondary"
+                            >
+                                Dashboard
+                            </Link>
+                            <Link
+                                to="/user/properties"
+                                className="nav-link fw-semibold text-secondary"
+                            >
+                                Explorar
+                            </Link>
+                            <Link
+                                to="/user/appointments"
+                                className="nav-link fw-semibold text-secondary"
+                            >
+                                Mis Citas
+                            </Link>
+                            <Link
+                                to="/user/3d"
+                                className="nav-link fw-semibold text-secondary"
+                            >
+                                3D
+                            </Link>
+                        </div>
+                    </div>
+
+                    {/* RIGHT SIDE */}
+                    <div className="d-flex align-items-center gap-3">
+
+                        {/* CART */}
+                        <Link
+                            to="/user/cart"
+                            className="position-relative p-2 text-secondary"
+                        >
+                            <ShoppingCart size={22} />
+                            {cart?.length > 0 && (
+                                <span className="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle" style={{ backgroundColor: '#6b0000' }}></span>
+                            )}
+                        </Link>
+
+                        {/* USER INFO */}
+                        <div className="d-none d-sm-flex align-items-center gap-3 ms-2">
+                            <div className="text-end">
+                                <p className="small fw-bold text-dark mb-0">
+                                    {user?.nombre || "Usuario"}
+                                </p>
+                                <p className="text-uppercase fw-bold text-muted mb-0" style={{ fontSize: '10px', letterSpacing: '1px' }}>
+                                    Cliente
+                                </p>
                             </div>
+
+                            <img
+                                className="rounded-circle border border-light shadow-sm"
+                                style={{ width: '36px', height: '36px', objectFit: 'cover' }}
+                                src={
+                                    user?.avatar
+                                        ? `http://127.0.0.1:8000/${user.avatar}`
+                                        : `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.nombre || "User"}`
+                                }
+                                alt="Avatar"
+                            />
                         </div>
 
-                        <div className="flex items-center gap-4">
-                            <Link to="/user/cart" className="p-2 text-gray-400 hover:text-[#6b0000] transition-colors relative">
-                                <ShoppingCart size={22} />
-                                <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-[#6b0000] ring-2 ring-white"></span>
-                            </Link>
-
-                            <div className="h-8 w-[1px] bg-gray-100 mx-2"></div>
-
-                            <div className="flex items-center gap-3">
-                                <Link to="/user/profile" className="flex items-center gap-3 no-underline group">
-                                    <div className="text-right hidden sm:block">
-                                        <p className="text-sm font-bold text-gray-900 m-0 group-hover:text-[#6b0000] transition-colors">{user?.nombre || "Comprador"}</p>
-                                        <p className="text-[10px] text-gray-400 m-0 uppercase tracking-widest font-bold">Cliente Elite</p>
-                                    </div>
-                                    <img
-                                        className="h-10 w-10 rounded-full border-2 border-transparent group-hover:border-[#6b0000] transition-all"
-                                        src={user?.avatar ? `http://127.0.0.1:8000/${user.avatar}` : `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.nombre || 'User'}`}
-                                        alt="Avatar"
-                                    />
-                                </Link>
-                                <button
-                                    onClick={handleLogout}
-                                    className="p-2 text-gray-400 hover:text-[#6b0000] transition-colors"
-                                    title="Cerrar Sesión"
-                                >
-                                    <LogOut size={20} />
-                                </button>
-                            </div>
-                        </div>
+                        {/* LOGOUT */}
+                        <button
+                            onClick={handleLogout}
+                            className="btn btn-link p-2 text-secondary"
+                            title="Cerrar Sesión"
+                        >
+                            <LogOut size={20} />
+                        </button>
                     </div>
                 </div>
             </nav>
 
-            <main className="flex-grow">
+            {/* MAIN CONTENT */}
+            <main className="flex-grow-1 w-100">
                 <Outlet />
             </main>
 
-            {/* Simple User Footer */}
-            <footer className="bg-white border-t border-gray-100 py-12">
-                <div className="max-w-7xl mx-auto px-4 text-center">
-                    <p className="text-sm text-gray-400 font-medium">&copy; {new Date().getFullYear()} VisioHome Inmobiliaria. Experiencia Premium.</p>
+            {/* FOOTER */}
+            <footer className="bg-white border-top py-5 mt-5">
+                <div className="container text-center">
+                    <p className="small text-muted mb-0">
+                        © {new Date().getFullYear()} VisioHome Inmobiliaria. Experiencia Premium.
+                    </p>
                 </div>
             </footer>
         </div>

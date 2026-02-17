@@ -5,15 +5,15 @@ export default function StatsCards({ kpis, loading }) {
   const stats = [
     {
       icon: <DollarSign size={22} />,
-      value: `$${(kpis?.ventas?.total ?? 0).toLocaleString()}`,
+      value: `$${(kpis?.income?.current ?? 0).toLocaleString()}`,
       label: "Ingresos Brutos",
-      trend: `${kpis?.ventas?.cantidad ?? 0} Transacciones`,
+      trend: `${kpis?.sales?.current ?? 0} Transacciones`,
       isPositive: true,
       color: "var(--primary-vino)"
     },
     {
       icon: <Building size={22} />,
-      value: (kpis?.propiedades?.total ?? 0).toString(),
+      value: (kpis?.properties?.current ?? 0).toString(),
       label: "Inventario Activo",
       trend: "Propiedades",
       isPositive: true,
@@ -21,7 +21,7 @@ export default function StatsCards({ kpis, loading }) {
     },
     {
       icon: <Users size={22} />,
-      value: (kpis?.usuarios?.total ?? 0).toString(),
+      value: (kpis?.users?.current ?? 0).toString(),
       label: "Usuarios Totales",
       trend: "Cuentas",
       isPositive: true,
