@@ -10,6 +10,7 @@ export default function Login() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [blockInfo, setBlockInfo] = useState(null);
+console.log("API URL:", import.meta.env.VITE_API_URL);
 
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -106,6 +107,7 @@ export default function Login() {
               onChange={handleChange}
               value={form.correo}
               required
+              autoComplete="email"
             />
           </div>
 
@@ -120,6 +122,7 @@ export default function Login() {
               onChange={handleChange}
               value={form.password}
               required
+              autoComplete="current-password"
             />
           </div>
 

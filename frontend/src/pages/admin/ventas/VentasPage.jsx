@@ -8,10 +8,11 @@ import IncomeChart from '../StatsCards/IncomeChart';
 const VentasPage = () => {
     const initialStats = {
         kpis: {
-            ventas: { total: 0, cantidad: 0 },
-            usuarios: { total: 0 },
-            propiedades: { total: 0 },
-            agentes: { total: 0 }
+            income: { current: 0, change: 0 },
+            sales: { current: 0, change: 0 },
+            users: { current: 0, change: 0 },
+            properties: { current: 0, change: 0 },
+            activeAgents: 0
         },
         charts: {
             usuariosPorRol: [],
@@ -124,26 +125,26 @@ const VentasPage = () => {
                 <div className="col-md-4">
                     <StatCard
                         title="Ventas Totales"
-                        value={kpis.ventas?.cantidad ?? 0}
+                        value={kpis.sales?.current ?? 0}
                         icon={Target}
                         color="#fbbf24"
-                        subtitle={renderChange(0)} // Placeholder para cambio
+                        subtitle={renderChange(kpis.sales?.change)}
                     />
                 </div>
                 <div className="col-md-4">
                     <StatCard
                         title="Total Facturado"
-                        value={formatPrice(kpis.ventas?.total ?? 0)}
+                        value={formatPrice(kpis.income?.current ?? 0)}
                         icon={DollarSign}
                         color="#4ade80"
-                        subtitle={renderChange(0)} // Placeholder para cambio
+                        subtitle={renderChange(kpis.income?.change)}
                     />
                 </div>
                 <div className="col-md-4">
                     <div className="glass-card p-4 h-100 d-flex flex-column justify-content-center">
                         <div className="text-muted small uppercase font-weight-bold mb-1">Agentes Activos</div>
                         <div className="d-flex align-items-baseline gap-2">
-                            <h2 className="m-0 text-white font-weight-900">{kpis.agentes?.total ?? 0}</h2>
+                            <h2 className="m-0 text-white font-weight-900">{kpis.activeAgents ?? 0}</h2>
                             <span className="small text-muted">en plataforma</span>
                         </div>
                     </div>
@@ -153,21 +154,20 @@ const VentasPage = () => {
             {/* Main Charts */}
             <div className="row g-4 mb-4">
                 <div className="col-lg-8">
-                    <IncomeChart data={charts.ventasPorTiempo ?? []} />
+                    <IncomeChart data={charts.ventasPorTiempo || []} />
                 </div>
                 <div className="col-lg-4">
-                    <PaymentMethodChart data={charts.ventasPorEstado ?? []} />
+                    <PaymentMethodChart data={charts.ventasPorEstado || []} />
                 </div>
             </div>
 
             {/* Distribution Charts */}
             <div className="row g-4 mb-4">
                 <div className="col-lg-4">
-                    <PropertyTypeChart data={charts.propiedadesPorEstado ?? []} />
+                    <PropertyTypeChart data={charts.propiedadesPorEstado || []} />
                 </div>
                 <div className="col-lg-8">
-                    {/* El backend actual no devuelve ventas por agente en este endpoint, usamos usuarios por rol como distribución alternativa o placeholder */}
-                    <AgentPerformanceChart data={charts.usuariosPorRol ?? []} />
+                    <AgentPerformanceChart data={charts.usuariosPorRol || []} />
                 </div>
             </div>
 
