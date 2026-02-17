@@ -127,8 +127,7 @@ class UsuarioController extends Controller
                 'telefono' => 'nullable|string|max:30',
                 'direccion' => 'nullable|string|max:200',
                 'password' => 'nullable|string|min:6',
-                'idRol' => 'sometimes|required|integer|in:1,2,3',
-                'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+                'idRol' => 'sometimes|required|integer|in:1,2,3'
             ]);
 
             if ($validator->fails()) {
@@ -138,21 +137,8 @@ class UsuarioController extends Controller
                 ], 422);
             }
 
-            $data = $request->except(['docUsuario', 'avatar']); // No permitir cambiar el documento directamente
+            $data = $request->except('docUsuario'); // No permitir cambiar el documento
             
-            // Manejar la carga del avatar
-            if ($request->hasFile('avatar')) {
-                // Eliminar el antiguo si existe
-                if ($usuario->avatar && file_exists(public_path($usuario->avatar))) {
-                    unlink(public_path($usuario->avatar));
-                }
-                
-                $file = $request->file('avatar');
-                $filename = time() . '_' . $file->getClientOriginalName();
-                $file->move(public_path('avatars'), $filename);
-                $data['avatar'] = 'avatars/' . $filename;
-            }
-
             // Solo actualizar password si se envía
             if (!$request->has('password') || empty($request->password)) {
                 unset($data['password']);
