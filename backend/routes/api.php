@@ -6,7 +6,7 @@ use App\Http\Controllers\AgenteController;
 use App\Http\Controllers\InmobiliariaController;
 use App\Http\Controllers\PropiedadController;
 use App\Http\Controllers\PagoController;
-use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 
 Route::post('/login', [AuthController::class, 'login']);
