@@ -107,7 +107,7 @@ export default function Administracion() {
 
           <div className="row g-4 mb-4">
             <div className="col-lg-8">
-              <IncomeChart data={stats.chartData} />
+              <IncomeChart data={stats.charts?.ventasPorTiempo || []} />
             </div>
             <div className="col-lg-4">
               <div className="glass-card p-4 h-100 d-flex flex-column justify-content-center text-center">

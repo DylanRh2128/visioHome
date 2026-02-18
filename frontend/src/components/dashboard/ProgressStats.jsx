@@ -26,7 +26,7 @@ export default function ProgressStats({ charts, loading }) {
               <p className="text-muted small">Sin métricas disponibles</p>
             </div>
           ) : (
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height={250}>
               <PieChart>
                 <Pie
                   data={roleData}

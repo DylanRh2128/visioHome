@@ -1,33 +1,55 @@
+import React, { Suspense, lazy } from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
-import Login from "../pages/auth/Login";
-import Register from "../pages/auth/Register";
-import Home from "../pages/public/Home";
-import Contact from "../pages/public/Contact";
-
+// Layouts (Eagerly loaded for faster shell)
 import PublicLayout from "../layouts/PublicLayout";
-import ProtectedRoute from "../components/auth/ProtectedRoute";
 import AdminLayout from "../layouts/AdminLayout";
-
-import Dashboard from "../pages/admin/Dashboard";
-import Profile from "../pages/admin/Profile";
-import Administracion from "../pages/admin/Administracion";
-
-import UsersPage from "../pages/admin/users/UsersPage";
-import UserStats from "../pages/admin/users/UserStats";
-import AgentesPage from "../pages/admin/agentes/AgentesPage";
-import FacturasPage from "../pages/admin/facturas/FacturasPage";
-import PropiedadPage from "../pages/admin/propiedades/PropiedadPage";
-import VentasPage from "../pages/admin/ventas/VentasPage";
-
 import UserLayout from "../layouts/UserLayout";
-import UserDashboard from "../pages/user/Dashboard";
-import UserProperties from "../pages/user/PropertyBrowser";
-import UserPropertyDetail from "../pages/user/PropertyDetails";
-import UserAppointments from "../pages/user/AppointmentsPage";
-import UserCart from "../pages/user/CartPage";
-import UserProfile from "../pages/user/ProfilePage";
-import User3D from "../pages/user/ThreeDExplorer";
+import ProtectedRoute from "../components/auth/ProtectedRoute";
+
+// 💤 Lazy Loading Pages
+// Auth
+const Login = lazy(() => import("../pages/auth/Login"));
+const Register = lazy(() => import("../pages/auth/Register"));
+
+// Public
+const Home = lazy(() => import("../pages/public/Home"));
+const Contact = lazy(() => import("../pages/public/Contact"));
+
+// Admin
+const Dashboard = lazy(() => import("../pages/admin/Dashboard"));
+// const Profile = lazy(() => import("../pages/admin/Profile")); // Conflict with local var if not careful, assuming unique names
+const AdminProfile = lazy(() => import("../pages/admin/Profile"));
+const Administracion = lazy(() => import("../pages/admin/Administracion"));
+const UsersPage = lazy(() => import("../pages/admin/users/UsersPage"));
+const UserStats = lazy(() => import("../pages/admin/users/UserStats"));
+const AgentesPage = lazy(() => import("../pages/admin/agentes/AgentesPage"));
+const FacturasPage = lazy(() => import("../pages/admin/facturas/FacturasPage"));
+const PropiedadPage = lazy(() => import("../pages/admin/propiedades/PropiedadPage"));
+const VentasPage = lazy(() => import("../pages/admin/ventas/VentasPage"));
+
+// User
+const UserDashboard = lazy(() => import("../pages/user/DashboardUser"));
+const UserProperties = lazy(() => import("../pages/user/properties/PropertyList"));
+const UserPropertyDetail = lazy(() => import("../pages/user/properties/PropertyDetail"));
+const UserAppointments = lazy(() => import("../pages/user/appointments/AppointmentsPage"));
+const UserCart = lazy(() => import("../pages/user/cart/CartPage"));
+const UserProfile = lazy(() => import("../pages/user/profile/ProfilePage"));
+const User3D = lazy(() => import("../pages/user/threeD/ThreeDExplorer"));
+
+// 🌀 Loading Spinner Component
+const PageLoader = () => (
+  <div className="flex items-center justify-center min-h-screen bg-gray-50">
+    <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#6b0000]"></div>
+  </div>
+);
+
+// Helper to wrap components
+const Load = (Component) => (
+  <Suspense fallback={<PageLoader />}>
+    <Component />
+  </Suspense>
+);
 
 const router = createBrowserRouter([
   // 🌍 ZONA PÚBLICA
@@ -37,19 +59,19 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element: Load(Home),
       },
       {
         path: "login",
-        element: <Login />,
+        element: Load(Login),
       },
       {
         path: "registro",
-        element: <Register />,
+        element: Load(Register),
       },
       {
         path: "contact",
-        element: <Contact />,
+        element: Load(Contact),
       },
     ]
   },
@@ -69,31 +91,31 @@ const router = createBrowserRouter([
       },
       {
         path: "dashboard",
-        element: <UserDashboard />,
+        element: Load(UserDashboard),
       },
       {
         path: "properties",
-        element: <UserProperties />,
+        element: Load(UserProperties),
       },
       {
         path: "properties/:id",
-        element: <UserPropertyDetail />,
+        element: Load(UserPropertyDetail),
       },
       {
         path: "cart",
-        element: <UserCart />,
+        element: Load(UserCart),
       },
       {
         path: "appointments",
-        element: <UserAppointments />,
+        element: Load(UserAppointments),
       },
       {
         path: "profile",
-        element: <UserProfile />,
+        element: Load(UserProfile),
       },
       {
         path: "3d",
-        element: <User3D />,
+        element: Load(User3D),
       }
     ]
   },
@@ -113,39 +135,39 @@ const router = createBrowserRouter([
       },
       {
         path: "dashboard",
-        element: <Dashboard />,
+        element: Load(Dashboard),
       },
       {
         path: "profile",
-        element: <Profile />,
+        element: Load(AdminProfile),
       },
       {
         path: "usuarios",
-        element: <UserStats />,
+        element: Load(UserStats),
       },
       {
         path: "usuarios-crud",
-        element: <UsersPage />,
+        element: Load(UsersPage),
       },
       {
         path: "agentes",
-        element: <AgentesPage />,
+        element: Load(AgentesPage),
       },
       {
         path: "facturas",
-        element: <FacturasPage />,
+        element: Load(FacturasPage),
       },
       {
         path: "propiedades",
-        element: <PropiedadPage />,
+        element: Load(PropiedadPage),
       },
       {
         path: "ventas",
-        element: <VentasPage />,
+        element: Load(VentasPage),
       },
       {
         path: "administracion",
-        element: <Administracion />,
+        element: Load(Administracion),
       },
       {
         path: "3d",

@@ -154,24 +154,14 @@ class DashboardController extends Controller
             ['name' => 'Compradores', 'value' => (int)$buyers, 'color' => '#808080'],
         ];
 
-        // Obtener comentarios reales con información del usuario
-        $recentActivity = DB::table('comentarios_propiedad')
-            ->join('usuarios', 'comentarios_propiedad.docUsuario', '=', 'usuarios.docUsuario')
-            ->select(
-                'usuarios.nombre',
-                'usuarios.correo',
-                'comentarios_propiedad.comentario as texto',
-                'comentarios_propiedad.fecha as fecha',
-                'comentarios_propiedad.puntuacion'
-            )
-            ->orderBy('comentarios_propiedad.fecha', 'desc')
-            ->limit(10)
-            ->get() ?: collect([]);
+        $recentUsers = Usuario::orderBy('creado_en', 'desc')
+            ->limit(5)
+            ->get(['nombre', 'correo', 'creado_en']) ?: collect([]);
 
         return response()->json([
             'genderDistribution' => $genderDistribution,
             'funnelData' => $funnelData,
-            'recentUsers' => $recentActivity, // Renombramos para claridad o mantenemos si el frontend lo requiere
+            'recentUsers' => $recentUsers,
             'totalUsers' => (int)$totalUsers
         ]);
     }
