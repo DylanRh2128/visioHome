@@ -16,6 +16,7 @@ class PropiedadImagen extends Model
     protected $fillable = [
         'idPropiedad',
         'urlImagen',
-        'orden'
+        'orden',
+        'tipo',
     ];
 }

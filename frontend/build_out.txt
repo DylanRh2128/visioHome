@@ -1,0 +1,110 @@
+﻿
+> visiohome-frontend@1.0.0 build
+> vite build
+
+[36mvite v5.4.21 [32mbuilding for production...[36m[39m
+transforming...
+[32mÔ£ô[39m 3144 modules transformed.
+rendering chunks...
+computing gzip size...
+[2mdist/[22m[32mindex.html                                [39m[1m[2m    0.47 kB[22m[1m[22m[2m Ôöé gzip:   0.30 kB[22m
+[2mdist/[22m[35massets/PropertyDetail-CIGW-MKW.css        [39m[1m[2m   15.61 kB[22m[1m[22m[2m Ôöé gzip:   6.46 kB[22m
+[2mdist/[22m[35massets/index-ClXaDvZB.css                 [39m[1m[2m  236.99 kB[22m[1m[22m[2m Ôöé gzip:  32.58 kB[22m
+[2mdist/[22m[36massets/loader-circle-NFdp5m1T.js          [39m[1m[2m    0.31 kB[22m[1m[22m[2m Ôöé gzip:   0.26 kB[22m
+[2mdist/[22m[36massets/plus-CV9N8DxA.js                   [39m[1m[2m    0.33 kB[22m[1m[22m[2m Ôöé gzip:   0.25 kB[22m
+[2mdist/[22m[36massets/x-CIz783U4.js                      [39m[1m[2m    0.33 kB[22m[1m[22m[2m Ôöé gzip:   0.26 kB[22m
+[2mdist/[22m[36massets/trending-up-CrDpQ7dX.js            [39m[1m[2m    0.35 kB[22m[1m[22m[2m Ôöé gzip:   0.28 kB[22m
+[2mdist/[22m[36massets/circle-check-big-CbCBOI9f.js       [39m[1m[2m    0.36 kB[22m[1m[22m[2m Ôöé gzip:   0.28 kB[22m
+[2mdist/[22m[36massets/lock-D1KpUAQB.js                   [39m[1m[2m    0.37 kB[22m[1m[22m[2m Ôöé gzip:   0.30 kB[22m
+[2mdist/[22m[36massets/circle-x-CXuiwt5c.js               [39m[1m[2m    0.38 kB[22m[1m[22m[2m Ôöé gzip:   0.28 kB[22m
+[2mdist/[22m[36massets/credit-card-D3OSpIzT.js            [39m[1m[2m    0.38 kB[22m[1m[22m[2m Ôöé gzip:   0.30 kB[22m
+[2mdist/[22m[36massets/dollar-sign-C-aDIfHv.js            [39m[1m[2m    0.39 kB[22m[1m[22m[2m Ôöé gzip:   0.30 kB[22m
+[2mdist/[22m[36massets/panels-top-left-CdXTalaL.js        [39m[1m[2m    0.40 kB[22m[1m[22m[2m Ôöé gzip:   0.30 kB[22m
+[2mdist/[22m[36massets/pen-DOsUprod.js                    [39m[1m[2m    0.41 kB[22m[1m[22m[2m Ôöé gzip:   0.31 kB[22m
+[2mdist/[22m[36massets/maximize-2-DcjaNb_8.js             [39m[1m[2m    0.41 kB[22m[1m[22m[2m Ôöé gzip:   0.29 kB[22m
+[2mdist/[22m[36massets/bed-D4HYtfJj.js                    [39m[1m[2m    0.41 kB[22m[1m[22m[2m Ôöé gzip:   0.29 kB[22m
+[2mdist/[22m[36massets/circle-alert-DqHtJtKC.js           [39m[1m[2m    0.42 kB[22m[1m[22m[2m Ôöé gzip:   0.30 kB[22m
+[2mdist/[22m[36massets/chart-column-BI9siv1r.js           [39m[1m[2m    0.42 kB[22m[1m[22m[2m Ôöé gzip:   0.30 kB[22m
+[2mdist/[22m[36massets/key-DgftJLoS.js                    [39m[1m[2m    0.43 kB[22m[1m[22m[2m Ôöé gzip:   0.32 kB[22m
+[2mdist/[22m[36massets/send-BLrjIGP2.js                   [39m[1m[2m    0.46 kB[22m[1m[22m[2m Ôöé gzip:   0.34 kB[22m
+[2mdist/[22m[36massets/receipt-Dr_9Bygm.js                [39m[1m[2m    0.47 kB[22m[1m[22m[2m Ôöé gzip:   0.31 kB[22m
+[2mdist/[22m[36massets/badge-check-DvfTP46P.js            [39m[1m[2m    0.48 kB[22m[1m[22m[2m Ôöé gzip:   0.32 kB[22m
+[2mdist/[22m[36massets/refresh-cw-CK4HU8PC.js             [39m[1m[2m    0.49 kB[22m[1m[22m[2m Ôöé gzip:   0.33 kB[22m
+[2mdist/[22m[36massets/save-D9th1hRX.js                   [39m[1m[2m    0.50 kB[22m[1m[22m[2m Ôöé gzip:   0.33 kB[22m
+[2mdist/[22m[36massets/trash-2-B8vHMuSX.js                [39m[1m[2m    0.50 kB[22m[1m[22m[2m Ôöé gzip:   0.32 kB[22m
+[2mdist/[22m[36massets/camera-BhdbI2jM.js                 [39m[1m[2m    0.51 kB[22m[1m[22m[2m Ôöé gzip:   0.35 kB[22m
+[2mdist/[22m[36massets/building-2-DvSGMhfv.js             [39m[1m[2m    0.56 kB[22m[1m[22m[2m Ôöé gzip:   0.34 kB[22m
+[2mdist/[22m[36massets/star-FS08Zen9.js                   [39m[1m[2m    0.65 kB[22m[1m[22m[2m Ôöé gzip:   0.40 kB[22m
+[2mdist/[22m[36massets/disponibilidadService-B1E0mFJY.js  [39m[1m[2m    0.68 kB[22m[1m[22m[2m Ôöé gzip:   0.31 kB[22m
+[2mdist/[22m[36massets/statsService-Fh6DalKh.js           [39m[1m[2m    0.70 kB[22m[1m[22m[2m Ôöé gzip:   0.38 kB[22m
+[2mdist/[22m[36massets/propiedadService-3Hwx7q5C.js       [39m[1m[2m    0.84 kB[22m[1m[22m[2m Ôöé gzip:   0.31 kB[22m
+[2mdist/[22m[36massets/agenteService-BjIqWXLy.js          [39m[1m[2m    0.86 kB[22m[1m[22m[2m Ôöé gzip:   0.35 kB[22m
+[2mdist/[22m[36massets/StatHeader-taCfyCiP.js             [39m[1m[2m    0.96 kB[22m[1m[22m[2m Ôöé gzip:   0.55 kB[22m
+[2mdist/[22m[36massets/validation-BzSR-Nbz.js             [39m[1m[2m    1.10 kB[22m[1m[22m[2m Ôöé gzip:   0.65 kB[22m
+[2mdist/[22m[36massets/usuarioService-D_0UvS66.js         [39m[1m[2m    1.50 kB[22m[1m[22m[2m Ôöé gzip:   0.47 kB[22m
+[2mdist/[22m[36massets/Home-BkZmFTtM.js                   [39m[1m[2m    2.43 kB[22m[1m[22m[2m Ôöé gzip:   1.13 kB[22m
+[2mdist/[22m[36massets/ConfigurationPage-MO4raP67.js      [39m[1m[2m    3.63 kB[22m[1m[22m[2m Ôöé gzip:   1.50 kB[22m
+[2mdist/[22m[36massets/Dashboard-ds6m-KRM.js              [39m[1m[2m    4.28 kB[22m[1m[22m[2m Ôöé gzip:   1.68 kB[22m
+[2mdist/[22m[36massets/Disponibilidad-CadxFJj7.js         [39m[1m[2m    4.47 kB[22m[1m[22m[2m Ôöé gzip:   1.71 kB[22m
+[2mdist/[22m[36massets/Login-DMvtrNs-.js                  [39m[1m[2m    4.61 kB[22m[1m[22m[2m Ôöé gzip:   1.94 kB[22m
+[2mdist/[22m[36massets/Citas-BjRoGMIE.js                  [39m[1m[2m    4.76 kB[22m[1m[22m[2m Ôöé gzip:   1.81 kB[22m
+[2mdist/[22m[36massets/Contact-BIo61W3J.js                [39m[1m[2m    5.75 kB[22m[1m[22m[2m Ôöé gzip:   1.73 kB[22m
+[2mdist/[22m[36massets/ThreeDExplorer-XJyj7WpG.js         [39m[1m[2m    5.84 kB[22m[1m[22m[2m Ôöé gzip:   2.08 kB[22m
+[2mdist/[22m[36massets/Perfil-CozV6OPV.js                 [39m[1m[2m    5.94 kB[22m[1m[22m[2m Ôöé gzip:   2.07 kB[22m
+[2mdist/[22m[36massets/Properties-Cg_rBMl4.js             [39m[1m[2m    6.54 kB[22m[1m[22m[2m Ôöé gzip:   2.24 kB[22m
+[2mdist/[22m[36massets/Register-CCjKdT-D.js               [39m[1m[2m    7.26 kB[22m[1m[22m[2m Ôöé gzip:   2.48 kB[22m
+[2mdist/[22m[36massets/VentasPage-WqODp0a3.js             [39m[1m[2m    7.64 kB[22m[1m[22m[2m Ôöé gzip:   2.72 kB[22m
+[2mdist/[22m[36massets/UserStats-BPMvcrQY.js              [39m[1m[2m    8.53 kB[22m[1m[22m[2m Ôöé gzip:   2.92 kB[22m
+[2mdist/[22m[36massets/Profile-D9wKX7FH.js                [39m[1m[2m    8.57 kB[22m[1m[22m[2m Ôöé gzip:   2.75 kB[22m
+[2mdist/[22m[36massets/Administracion-BVujf1AL.js         [39m[1m[2m    8.59 kB[22m[1m[22m[2m Ôöé gzip:   2.64 kB[22m
+[2mdist/[22m[36massets/DashboardUser-Dyhnnyfe.js          [39m[1m[2m    9.05 kB[22m[1m[22m[2m Ôöé gzip:   2.38 kB[22m
+[2mdist/[22m[36massets/AppointmentsPage-Drj0TwnQ.js       [39m[1m[2m    9.59 kB[22m[1m[22m[2m Ôöé gzip:   3.46 kB[22m
+[2mdist/[22m[36massets/Dashboard-wxPFdPrt.js              [39m[1m[2m   10.32 kB[22m[1m[22m[2m Ôöé gzip:   3.46 kB[22m
+[2mdist/[22m[36massets/Profile-BiOnrfJn.js                [39m[1m[2m   11.76 kB[22m[1m[22m[2m Ôöé gzip:   3.36 kB[22m
+[2mdist/[22m[36massets/FacturasPage-Zo6mxC88.js           [39m[1m[2m   12.31 kB[22m[1m[22m[2m Ôöé gzip:   3.67 kB[22m
+[2mdist/[22m[36massets/UsersPage-BizZc957.js              [39m[1m[2m   12.73 kB[22m[1m[22m[2m Ôöé gzip:   3.88 kB[22m
+[2mdist/[22m[36massets/PropiedadPage-BTykm3BQ.js          [39m[1m[2m   14.04 kB[22m[1m[22m[2m Ôöé gzip:   4.19 kB[22m
+[2mdist/[22m[36massets/AgentesPage-CCGmD6fE.js            [39m[1m[2m   15.67 kB[22m[1m[22m[2m Ôöé gzip:   4.31 kB[22m
+[2mdist/[22m[36massets/IncomeChart-CIS0k2lm.js            [39m[1m[2m   20.24 kB[22m[1m[22m[2m Ôöé gzip:   6.57 kB[22m
+[2mdist/[22m[36massets/BarChart-C-v5ME2M.js               [39m[1m[2m   24.23 kB[22m[1m[22m[2m Ôöé gzip:   7.47 kB[22m
+[2mdist/[22m[36massets/PieChart-CrPpUG4c.js               [39m[1m[2m   26.19 kB[22m[1m[22m[2m Ôöé gzip:   7.85 kB[22m
+[2mdist/[22m[36massets/CartesianChart-CKuHfG-F.js         [39m[1m[2m   28.71 kB[22m[1m[22m[2m Ôöé gzip:   7.96 kB[22m
+[2mdist/[22m[36massets/PropertyDetail-rXEqXCvS.js         [39m[1m[2m  171.88 kB[22m[1m[22m[2m Ôöé gzip:  50.49 kB[22m
+[2mdist/[22m[36massets/CategoricalChart-CZPWe04V.js       [39m[1m[2m  293.16 kB[22m[1m[22m[2m Ôöé gzip:  90.90 kB[22m
+[2mdist/[22m[36massets/index-CBRArQR2.js                  [39m[1m[2m  368.70 kB[22m[1m[22m[2m Ôöé gzip: 115.16 kB[22m
+[2mdist/[22m[36massets/ModelViewer-D9_IqiVC.js            [39m[1m[33m1,017.15 kB[39m[22m[2m Ôöé gzip: 281.56 kB[22m
+node.exe : [33m
+En C:\Program 
+Files\nodejs\npm.ps1: 
+29 Carácter: 3
++   & $NODE_EXE 
+$NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: ([33m:String)   
+  [], RemoteExcepti    
+on
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+(!) Some chunks are 
+larger than 500 kB 
+after minification. 
+Consider:
+- Using dynamic 
+import() to code-split 
+the application
+- Use build.rollupOptio
+ns.output.manualChunks 
+to improve chunking: ht
+tps://rollupjs.org/conf
+iguration-options/#outp
+ut-manualchunks
+- Adjust chunk size 
+limit for this warning 
+via build.chunkSizeWarn
+ingLimit.[39m
+[32mÔ£ô built in 16.86s[39m

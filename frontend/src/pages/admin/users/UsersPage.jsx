@@ -22,8 +22,8 @@ export default function UsersPage() {
 
   const loadStats = async () => {
     try {
-      const data = await statsService.getGlobalStats();
-      setGlobalStats(data.usuarios);
+      const data = await usuarioService.getStats();
+      setGlobalStats(data);
     } catch (error) {
       console.error("Error al cargar estadísticas:", error);
     }
@@ -42,6 +42,11 @@ export default function UsersPage() {
   };
 
 
+  const handleCreate = () => {
+    setSelectedUsuario(null);
+    setShowForm(true);
+  };
+
   const handleEdit = (usuario) => {
     setSelectedUsuario(usuario);
     setShowForm(true);
@@ -51,12 +56,15 @@ export default function UsersPage() {
     try {
       if (selectedUsuario) {
         await usuarioService.update(selectedUsuario.docUsuario, formData);
+      } else {
+        await usuarioService.create(formData);
       }
       setShowForm(false);
+      setSelectedUsuario(null);
       loadUsuarios();
     } catch (error) {
       console.error("Error al guardar usuario:", error);
-      alert(error.message || "Error al guardar usuario");
+      alert(error?.errors ? Object.values(error.errors).flat().join('\n') : (error.message || "Error al guardar usuario"));
     }
   };
 
@@ -88,21 +96,28 @@ export default function UsersPage() {
           <Users className="text-primary-red" size={28} />
           <h2 className="m-0">Gestión de Usuarios</h2>
         </div>
+        <button onClick={handleCreate} className="premium-btn">
+          <Plus size={18} />
+          <span>Nuevo Usuario</span>
+        </button>
       </div>
 
       <StatHeader
         loading={loading}
         stats={[
-          { label: 'Total Usuarios', value: globalStats?.total ?? 0 },
-          { label: 'Activos', value: globalStats?.activos ?? 0 },
-          { label: 'Bloqueados', value: globalStats?.bloqueados ?? 0 },
+          { label: 'Total Usuarios', value: globalStats?.total_usuarios ?? 0 },
+          { label: 'Clientes', value: globalStats?.total_clientes ?? 0 },
+          { label: 'Agentes', value: globalStats?.total_agentes ?? 0 },
+          { label: 'Admins', value: globalStats?.total_admins ?? 0 },
+          { label: 'Activos', value: globalStats?.total_activos ?? 0 },
+          { label: 'Bloqueados', value: globalStats?.total_bloqueados ?? 0 },
         ]}
       />
 
       {showForm ? (
         <div className="glass-card animate-fade-in mb-4">
           <UserForm
-            usuario={selectedUsuario}
+            user={selectedUsuario}
             onSubmit={handleSubmit}
             onCancel={() => setShowForm(false)}
           />

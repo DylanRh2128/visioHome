@@ -48,3 +48,124 @@ a {
 ::-webkit-scrollbar-thumb:hover {
   background: #6b0000;
 }
+
+/* 🧊 Premium Components & Tables with High Contrast */
+.premium-table-container {
+  overflow-x: auto;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+}
+
+.premium-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.premium-table th {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 2px solid var(--primary-vino);
+  color: #000;
+  /* Max contrast */
+  font-weight: 800;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.premium-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #000;
+  /* Max contrast for numbers */
+  font-size: 14px;
+}
+
+.premium-table tr:hover {
+  background-color: #f8fafc;
+}
+
+/* Badges with readable contrast */
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 800;
+  background: #e0f2fe;
+  color: #0369a1;
+  text-transform: uppercase;
+}
+
+.status-badge {
+  padding: 5px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+}
+
+.status-badge.active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-badge.inactive {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* CRUD Utilities */
+.crud-container {
+  padding: 24px;
+  animation: fadeUp 0.4s ease-out;
+}
+
+.crud-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 16px;
+}
+
+.crud-header h2 {
+  margin: 0;
+  color: #000;
+  font-weight: 900;
+}
+
+.search-input {
+  border: 2px solid #cbd5e1 !important;
+  color: #000 !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+}
+
+.search-input::placeholder {
+  color: #64748b;
+}
+
+.action-btn {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+  background: #f8fafc;
+}
+
+.action-btn.edit {
+  color: #d97706;
+}
+
+.action-btn.delete {
+  color: #dc2626;
+}
+
+.action-btn:hover {
+  background: #f1f5f9;
+  transform: translateY(-1px);
+}

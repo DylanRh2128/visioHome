@@ -42,7 +42,7 @@ export default function AdminLayout() {
 
             {isDropdownOpen && (
               <div style={styles.dropdown}>
-                <NavLink to="/admin/usuarios-crud" onClick={() => setIsDropdownOpen(false)} style={styles.dropdownItem}>
+                <NavLink to="/admin/usuarios" onClick={() => setIsDropdownOpen(false)} style={styles.dropdownItem}>
                   <Users size={16} />
                   <span>Gestión de Usuarios</span>
                 </NavLink>

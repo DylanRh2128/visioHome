@@ -10,8 +10,10 @@
     --bg-white: #ffffff;
     --bg-dark: #0f0f0f;
 
-    --text-main: #1e1e1e;
-    --text-muted: #6c757d;
+    --text-main: #0a0a10;
+    /* Near black with blue tint for slate feel */
+    --text-muted: #374151;
+    /* Dark slate (Slate-700) */
     --text-light: #f8f9fa;
     --text-white: #ffffff;
 
@@ -31,6 +33,14 @@
 
     /* Typography */
     --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.text-primary-red {
+    color: var(--primary-vino) !important;
+}
+
+.bg-primary-vino {
+    background-color: var(--primary-vino) !important;
 }
 
 body {

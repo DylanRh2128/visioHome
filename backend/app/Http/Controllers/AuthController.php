@@ -29,10 +29,19 @@ class AuthController extends Controller
         // 🔑 Crear token Sanctum
         $token = $usuario->createToken('visiohome-api')->plainTextToken;
 
+        // Validar dominio si el rol es agente (idRol 3)
+        if ($usuario->idRol == 3 && !str_ends_with($usuario->correo, '@visiohome.com')) {
+            $usuario->tokens()->delete(); // Revocar token generado
+            return response()->json([
+                'error' => 'Correo no autorizado para agente'
+            ], 403);
+        }
+
         return response()->json([
             'message' => 'Login exitoso',
             'token' => $token,
-            'usuario' => $usuario
+            'usuario' => $usuario,
+            'idRol' => $usuario->idRol
         ]);
     }
 

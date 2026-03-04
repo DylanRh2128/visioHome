@@ -21,7 +21,7 @@ export default function PublicLayout() {
         if (!user) return "/";
         if (user.rol === 'admin') return "/admin/dashboard";
         if (user.rol === 'user') return "/user/dashboard";
-        if (user.rol === 'agente') return "/agent/dashboard";
+        if (user.rol === 'agente') return "/agente/dashboard";
         return "/";
     };
 

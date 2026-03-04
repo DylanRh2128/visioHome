@@ -6,7 +6,14 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
     try {
       const savedUser = localStorage.getItem("user");
-      return savedUser ? JSON.parse(savedUser) : null;
+      if (!savedUser) return null;
+      const parsed = JSON.parse(savedUser);
+      // Ensure role mapping exists even for reloads
+      if (parsed && !parsed.rol && parsed.idRol) {
+        parsed.rol = parsed.idRol === 1 ? 'admin' :
+          parsed.idRol === 3 ? 'agente' : 'user';
+      }
+      return parsed;
     } catch (error) {
       console.error("Error parsing user from localStorage:", error);
       localStorage.clear();
@@ -24,6 +31,12 @@ export function AuthProvider({ children }) {
     if (token && savedUser) {
       try {
         const parsedUser = JSON.parse(savedUser);
+        // Map idRol to rol if missing for compatibility
+        if (parsedUser && !parsedUser.rol && parsedUser.idRol) {
+          parsedUser.rol = parsedUser.idRol === 1 ? 'admin' :
+            parsedUser.idRol === 3 ? 'agente' : 'user';
+        }
+
         if (!parsedUser || !parsedUser.rol) {
           throw new Error("Invalid user data");
         }
@@ -40,28 +53,44 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = (userData, token) => {
-    // LIMPIEZA ATÓMICA ANTES DE NUEVO LOGIN
-    localStorage.clear();
+    // Mapping role for frontend use
+    const userRole = userData.rol || (userData.idRol === 1 ? 'admin' :
+      userData.idRol === 3 ? 'agente' : 'user');
+
+    const mappedUser = { ...userData, rol: userRole };
 
     // Persistencia segura
-    localStorage.setItem("user", JSON.stringify(userData));
+    localStorage.setItem("user", JSON.stringify(mappedUser));
     localStorage.setItem("token", token);
 
     // Actualización de estado
-    setUser(userData);
+    setUser(mappedUser);
   };
 
-  const updateUser = (userData) => {
-    localStorage.setItem("user", JSON.stringify(userData));
-    setUser(userData);
+  const updateUser = (newUserData) => {
+    setUser(prevUser => {
+      const updatedUser = { ...prevUser, ...newUserData };
+
+      // Re-apply role mapping if idRol changed or rol is missing
+      if (!updatedUser.rol || newUserData.idRol) {
+        updatedUser.rol = updatedUser.idRol === 1 ? 'admin' :
+          updatedUser.idRol === 3 ? 'agente' : 'user';
+      }
+
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      return updatedUser;
+    });
   };
 
   const logout = () => {
     // LIMPIEZA TOTAL
-    localStorage.clear();
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("idRol");
     setUser(null);
-    // Forzar recarga si es necesario para limpiar estados de otros contextos
-    // window.location.href = "/login"; 
+
+    // Opcional: Redirigir al login para asegurar limpieza de otros estados de React
+    // window.location.href = "/login";
   };
 
   return (
