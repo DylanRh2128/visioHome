@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Usuario;
-use App\Models\Agente;
 use App\Models\Propiedad;
 use App\Models\Pago;
 use Illuminate\Http\Request;
@@ -14,22 +13,20 @@ class DashboardController extends Controller
 {
     public function getGlobalStats()
     {
-        // 1. Usuarios
-        $usuariosTotal = Usuario::count() ?: 0;
-        $usuariosActivos = Usuario::where(function($q) {
-            $q->where('bloqueadoHasta', '<', now())
-              ->orWhereNull('bloqueadoHasta');
-        })->count() ?: 0;
-        $usuariosBloqueados = Usuario::where('bloqueadoHasta', '>', now())->count() ?: 0;
+        // 1. Usuarios (Clientes/Usuarios base)
+        $usuariosTotal = Usuario::clientes()->count() ?: 0;
+        $usuariosActivos = Usuario::clientes()->where('activo', 1)->count() ?: 0;
+        $usuariosBloqueados = $usuariosTotal - $usuariosActivos;
+        
         $usuariosPorRol = Usuario::join('roles', 'usuarios.idRol', '=', 'roles.idRol')
             ->select('roles.nombre as label', DB::raw('count(*) as value'))
-            ->groupBy('roles.nombre')
+            ->groupBy('roles.nombre', 'roles.idRol')
             ->get() ?: collect([]);
 
-        // 2. Agentes
-        $agentesTotal = Agente::count() ?: 0;
-        $agentesActivos = Agente::where('activo', 1)->count() ?: 0;
-        $agentesInactivos = Agente::where('activo', 0)->count() ?: 0;
+        // 2. Agentes (Usuarios con idRol 3)
+        $agentesTotal = Usuario::agentes()->count() ?: 0;
+        $agentesActivos = Usuario::agentes()->where('activo', 1)->count() ?: 0;
+        $agentesInactivos = $agentesTotal - $agentesActivos;
 
         // 3. Propiedades
         $propiedadesTotal = Propiedad::count() ?: 0;
@@ -88,12 +85,12 @@ class DashboardController extends Controller
         $salesCount = Pago::where('estado', 'aprobado')->whereBetween('fecha', [$start, $end])->count() ?: 0;
         $newUsers = Usuario::whereBetween('creado_en', [$start, $end])->count() ?: 0;
         $newProperties = Propiedad::whereBetween('creado_en', [$start, $end])->count() ?: 0;
-        $activeAgents = Agente::where('activo', 1)->count() ?: 0;
+        $activeAgents = Usuario::agentes()->where('activo', 1)->count() ?: 0;
 
         // CHARTS
         $usuariosPorRol = Usuario::join('roles', 'usuarios.idRol', '=', 'roles.idRol')
             ->select('roles.nombre as label', DB::raw('count(*) as value'))
-            ->groupBy('roles.nombre')
+            ->groupBy('roles.nombre', 'roles.idRol')
             ->get() ?: collect([]);
 
         $ventasPorEstado = Pago::select('estado as label', DB::raw('count(*) as value'))
@@ -109,25 +106,33 @@ class DashboardController extends Controller
 
         return response()->json([
             'kpis' => [
-                'ventas' => [
-                    'total' => (float)$income,
-                    'cantidad' => (int)$salesCount
+                'income' => [
+                    'current' => (float)$income,
+                    'change' => 0 
                 ],
-                'usuarios' => [
-                    'total' => (int)$newUsers
+                'sales' => [
+                    'current' => (int)$salesCount,
+                    'change' => 0
                 ],
-                'propiedades' => [
-                    'total' => (int)$newProperties
+                'users' => [
+                    'current' => (int)$newUsers,
+                    'change' => 0
                 ],
-                'agentes' => [
-                    'total' => (int)$activeAgents
-                ]
+                'properties' => [
+                    'current' => (int)$newProperties,
+                    'change' => 0
+                ],
+                'activeAgents' => (int)$activeAgents
             ],
             'charts' => [
                 'usuariosPorRol' => $usuariosPorRol,
                 'ventasPorEstado' => $ventasPorEstado,
                 'propiedadesPorEstado' => $propiedadesPorEstado,
                 'ventasPorTiempo' => $ventasPorTiempo
+            ],
+            'rankings' => [
+                'topAgente' => null, 
+                'topPropiedad' => null
             ]
         ]);
     }

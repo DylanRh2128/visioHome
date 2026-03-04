@@ -3,35 +3,42 @@ import { useAuth } from "../../context/AuthContext";
 
 /**
  * ProtectedRoute - Validación estricta por roles
- * @param {Array} allowedRoles - Roles permitidos para esta ruta
  */
 export default function ProtectedRoute({ children, allowedRoles }) {
   const { user, loading } = useAuth();
   const location = useLocation();
 
+  // 🔥 Esperar validación completa
   if (loading) return null;
 
-  // 1. No hay usuario -> Al login
+  // 1️⃣ No hay usuario
   if (!user) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  // 2. Hay usuario pero el rol no está permitido
+  // 2️⃣ Rol no permitido
   if (allowedRoles && !allowedRoles.includes(user.rol)) {
-    console.warn(`Acceso denegado: El usuario con rol '${user.rol}' intentó acceder a una ruta de '${allowedRoles}'`);
 
-    // Redirección inteligente basada en el rol actual para evitar bucles o pantallas en blanco
-    if (user.rol === 'admin') {
+    console.warn(
+      `Acceso denegado: rol '${user.rol}' intentó acceder a ruta de '${allowedRoles}'`
+    );
+
+    // 🔥 Redirección correcta según rol REAL
+    if (user.rol === "admin") {
       return <Navigate to="/admin/dashboard" replace />;
-    } else if (user.rol === 'user') {
-      return <Navigate to="/user/dashboard" replace />;
-    } else if (user.rol === 'agente') {
-      return <Navigate to="/agent/dashboard" replace />;
-    } else {
-      return <Navigate to="/" replace />;
     }
+
+    if (user.rol === "user") {
+      return <Navigate to="/user/dashboard" replace />;
+    }
+
+    if (user.rol === "agente") {
+      return <Navigate to="/agente/dashboard" replace />;
+    }
+
+    return <Navigate to="/" replace />;
   }
 
-  // 3. Acceso permitido
+  // 3️⃣ Acceso permitido
   return children;
 }

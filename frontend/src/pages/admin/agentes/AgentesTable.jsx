@@ -7,15 +7,16 @@ export default function AgentesTable({ agentes, onEdit, onDelete }) {
       <thead>
         <tr>
           <th>Agente</th>
+          <th>Especialidad / Carrera</th>
           <th>Contacto</th>
-          <th>Ubicación / NIT</th>
+          <th>NIT / Ciudad</th>
           <th>Estado</th>
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
         {agentes.map((a) => (
-          <tr key={a.docAgente}>
+          <tr key={a.docUsuario}>
             <td>
               <div className="d-flex align-items-center gap-3">
                 <div style={{
@@ -33,9 +34,13 @@ export default function AgentesTable({ agentes, onEdit, onDelete }) {
                 </div>
                 <div>
                   <div style={{ fontWeight: "700", color: "#fff" }}>{a.nombre}</div>
-                  <div style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>ID: {a.docAgente}</div>
+                  <div style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>ID: {a.docUsuario}</div>
                 </div>
               </div>
+            </td>
+            <td>
+              <div style={{ fontWeight: "600", color: "#fff" }}>{a.especialidad}</div>
+              <div style={{ fontSize: "0.75rem", opacity: 0.7 }}>{a.carrera}</div>
             </td>
             <td>
               <div className="d-flex flex-column gap-1">
@@ -49,7 +54,7 @@ export default function AgentesTable({ agentes, onEdit, onDelete }) {
             </td>
             <td>
               <div style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>
-                {a.direccion || "Sin dirección"}
+                {a.ciudad || "No definida"}
                 <br />
                 <span style={{ fontSize: "0.75rem", opacity: 0.7 }}>NIT: {a.nitInmobiliaria || "Particular"}</span>
               </div>
@@ -82,7 +87,7 @@ export default function AgentesTable({ agentes, onEdit, onDelete }) {
                   <Edit2 size={18} />
                 </button>
                 <button
-                  onClick={() => onDelete(a.docAgente)}
+                  onClick={() => onDelete(a.docUsuario)}
                   style={{ background: "none", border: "none", color: "#ff4d4d", cursor: "pointer", padding: "0.5rem", borderRadius: "8px", transition: "0.2s" }}
                   title="Eliminar"
                   onMouseOver={(e) => e.currentTarget.style.background = "rgba(255, 77, 77, 0.1)"}
@@ -96,6 +101,6 @@ export default function AgentesTable({ agentes, onEdit, onDelete }) {
         ))}
       </tbody>
     </table>
-    
+
   );
 }

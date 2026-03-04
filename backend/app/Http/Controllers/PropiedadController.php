@@ -27,6 +27,7 @@ class PropiedadController extends Controller
             'estado' => 'required|string',
             'tipo' => 'required|string',
             'nitInmobiliaria' => 'required|string',
+            'imagen' => 'nullable|string|max:255',
         ]);
 
         $data['creado_en'] = now();
@@ -58,6 +59,7 @@ class PropiedadController extends Controller
             'estado' => 'sometimes|string',
             'tipo' => 'sometimes|string',
             'nitInmobiliaria' => 'sometimes|string',
+            'imagen' => 'nullable|string|max:255',
         ]);
 
         $data['actualizado_en'] = now();

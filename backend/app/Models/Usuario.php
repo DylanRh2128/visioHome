@@ -29,6 +29,9 @@ class Usuario extends Authenticatable
         'password',
         'idRol',
         'genero',
+        'avatar',
+        'ciudad',
+        'activo',
         'login_count',
         'intentosFallidos',
         'bloqueadoHasta'
@@ -37,6 +40,26 @@ class Usuario extends Authenticatable
     protected $hidden = [
         'password'
     ];
+
+    public function agenteProfile()
+    {
+        return $this->hasOne(AgenteProfile::class, 'usuario_id', 'docUsuario');
+    }
+
+    public function scopeAdmins($query)
+    {
+        return $query->where('idRol', 1);
+    }
+
+    public function scopeClientes($query)
+    {
+        return $query->where('idRol', 2);
+    }
+
+    public function scopeAgentes($query)
+    {
+        return $query->where('idRol', 3);
+    }
 
     public function setPasswordAttribute($value)
     {

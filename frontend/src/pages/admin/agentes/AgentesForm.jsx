@@ -4,22 +4,52 @@ import "../../../styles/theme.css";
 
 export default function AgenteForm({ agente, onSubmit, onCancel }) {
   const [form, setForm] = useState({
-    docAgente: "",
+    docUsuario: "",
     nombre: "",
     correo: "",
+    carrera: "",
+    ciudad: "",
     telefono: "",
     direccion: "",
-    nitInmobiliaria: "",
+    nitInmobiliaria: "900123456-1",
+    especialidad: "",
+    experiencia_anos: 0,
+    biografia: "",
+    password: "",
     activo: 1,
+    foto_perfil: null
   });
 
   useEffect(() => {
-    if (agente) setForm(agente);
+    if (agente) {
+      setForm({
+        docUsuario: agente.docUsuario || "",
+        nombre: agente.nombre || "",
+        correo: agente.correo || "",
+        carrera: agente.carrera || "",
+        ciudad: agente.ciudad || "",
+        telefono: agente.telefono || "",
+        direccion: agente.direccion || "",
+        nitInmobiliaria: agente.nitInmobiliaria || "900123456-1",
+        especialidad: agente.especialidad || "",
+        experiencia_anos: agente.experiencia_anos || 0,
+        biografia: agente.biografia || "",
+        password: "", // No cargar password previa
+        activo: agente.activo ? 1 : 0,
+        foto_perfil: null
+      });
+    }
   }, [agente]);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setForm({ ...form, [name]: type === "checkbox" ? (checked ? 1 : 0) : value });
+    const { name, value, type, checked, files } = e.target;
+    if (type === "checkbox") {
+      setForm({ ...form, [name]: checked ? 1 : 0 });
+    } else if (type === "file") {
+      setForm({ ...form, [name]: files[0] });
+    } else {
+      setForm({ ...form, [name]: value });
+    }
   };
 
   const handleLocalSubmit = (e) => {
@@ -47,13 +77,13 @@ export default function AgenteForm({ agente, onSubmit, onCancel }) {
         </div>
 
         <div className="col-md-6">
-          <label className="form-label">Cédula / Pasaporte</label>
+          <label className="form-label">Cédula / Pasaporte *</label>
           <div className="position-relative">
             <User size={18} className="position-absolute" style={{ left: "1rem", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)", opacity: 0.6 }} />
             <input
-              name="docAgente"
+              name="docUsuario"
               placeholder="Ej: 1000234567"
-              value={form.docAgente}
+              value={form.docUsuario || ""}
               onChange={handleChange}
               disabled={!!agente}
               className="premium-input ps-5"
@@ -63,13 +93,90 @@ export default function AgenteForm({ agente, onSubmit, onCancel }) {
         </div>
 
         <div className="col-md-6">
-          <label className="form-label">Nombre del Agente</label>
+          <label className="form-label">Nombre del Agente *</label>
           <div className="position-relative">
             <ShieldCheck size={18} className="position-absolute" style={{ left: "1rem", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)", opacity: 0.6 }} />
             <input
               name="nombre"
               placeholder="Ej. Roberto Silva"
-              value={form.nombre}
+              value={form.nombre || ""}
+              onChange={handleChange}
+              className="premium-input ps-5"
+              required
+            />
+          </div>
+        </div>
+
+        <div className="col-md-6">
+          <label className="form-label">Contraseña {agente && "(dejar en blanco para no cambiar)"} *</label>
+          <div className="position-relative">
+            <ShieldCheck size={18} className="position-absolute" style={{ left: "1rem", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)", opacity: 0.6 }} />
+            <input
+              name="password"
+              type="password"
+              placeholder="Min 8 caracteres"
+              value={form.password || ""}
+              onChange={handleChange}
+              className="premium-input ps-5"
+              required={!agente}
+            />
+          </div>
+        </div>
+
+        <div className="col-md-6">
+          <label className="form-label">Especialidad *</label>
+          <div className="position-relative">
+            <Briefcase size={18} className="position-absolute" style={{ left: "1rem", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)", opacity: 0.6 }} />
+            <input
+              name="especialidad"
+              placeholder="Ej. Residencial, Comercial"
+              value={form.especialidad || ""}
+              onChange={handleChange}
+              className="premium-input ps-5"
+              required
+            />
+          </div>
+        </div>
+
+        <div className="col-md-6">
+          <label className="form-label">Carrera / Título *</label>
+          <div className="position-relative">
+            <ShieldCheck size={18} className="position-absolute" style={{ left: "1rem", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)", opacity: 0.6 }} />
+            <input
+              name="carrera"
+              placeholder="Ej. Abogado, Administrador"
+              value={form.carrera || ""}
+              onChange={handleChange}
+              className="premium-input ps-5"
+              required
+            />
+          </div>
+        </div>
+
+        <div className="col-md-6">
+          <label className="form-label">Ciudad de Operación *</label>
+          <div className="position-relative">
+            <MapPin size={18} className="position-absolute" style={{ left: "1rem", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)", opacity: 0.6 }} />
+            <input
+              name="ciudad"
+              placeholder="Ej. Bogotá, Medellín"
+              value={form.ciudad || ""}
+              onChange={handleChange}
+              className="premium-input ps-5"
+              required
+            />
+          </div>
+        </div>
+
+        <div className="col-md-6">
+          <label className="form-label">Años de Experiencia *</label>
+          <div className="position-relative">
+            <Briefcase size={18} className="position-absolute" style={{ left: "1rem", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)", opacity: 0.6 }} />
+            <input
+              name="experiencia_anos"
+              type="number"
+              placeholder="Ej. 5"
+              value={form.experiencia_anos ?? 0}
               onChange={handleChange}
               className="premium-input ps-5"
               required
@@ -82,15 +189,16 @@ export default function AgenteForm({ agente, onSubmit, onCancel }) {
         </div>
 
         <div className="col-md-6">
-          <label className="form-label">Correo Corporativo</label>
+          <label className="form-label">Correo Corporativo *</label>
           <div className="position-relative">
             <Mail size={18} className="position-absolute" style={{ left: "1rem", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)", opacity: 0.6 }} />
             <input
               name="correo"
               type="email"
               placeholder="nombre@inmobiliaria.com"
-              value={form.correo}
+              value={form.correo || ""}
               onChange={handleChange}
+              disabled={!!agente}
               className="premium-input ps-5"
               required
             />
@@ -104,7 +212,7 @@ export default function AgenteForm({ agente, onSubmit, onCancel }) {
             <input
               name="telefono"
               placeholder="+57 3XX XXX XXXX"
-              value={form.telefono}
+              value={form.telefono || ""}
               onChange={handleChange}
               className="premium-input ps-5"
             />
@@ -118,23 +226,49 @@ export default function AgenteForm({ agente, onSubmit, onCancel }) {
             <input
               name="direccion"
               placeholder="Sede principal, Barrio, Ciudad..."
-              value={form.direccion}
+              value={form.direccion || ""}
               onChange={handleChange}
               className="premium-input ps-5"
             />
           </div>
         </div>
 
-        <div className="col-md-8">
+        <div className="col-md-12">
+          <label className="form-label">Biografía Profesional</label>
+          <div className="position-relative">
+            <textarea
+              name="biografia"
+              placeholder="Describe la experiencia y visión del agente..."
+              value={form.biografia || ""}
+              onChange={handleChange}
+              className="premium-input p-3"
+              style={{ height: '100px', resize: 'vertical' }}
+            />
+          </div>
+        </div>
+
+        <div className="col-md-6">
+          <label className="form-label">Foto de Perfil</label>
+          <input
+            name="foto_perfil"
+            type="file"
+            onChange={handleChange}
+            className="premium-input"
+            accept="image/*"
+          />
+        </div>
+
+        <div className="col-md-6">
           <label className="form-label">Entidad / Inmobiliaria (NIT)</label>
           <div className="position-relative">
             <Briefcase size={18} className="position-absolute" style={{ left: "1rem", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)", opacity: 0.6 }} />
             <input
               name="nitInmobiliaria"
               placeholder="900.XXX.XXX-X"
-              value={form.nitInmobiliaria}
+              value={form.nitInmobiliaria || "900123456-1"}
               onChange={handleChange}
               className="premium-input ps-5"
+              readOnly
             />
           </div>
         </div>

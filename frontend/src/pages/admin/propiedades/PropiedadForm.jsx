@@ -11,12 +11,17 @@ export default function PropiedadForm({ propiedad, onSubmit, onCancel }) {
         tipo: "casa",
         estado: "disponible",
         tamano_m2: "",
+        imagen: "",
+        categoria_ciudad: "terciaria",
         nitInmobiliaria: "900123456-1",
     });
 
     useEffect(() => {
         if (propiedad) {
-            setForm(propiedad);
+            setForm({
+                ...propiedad,
+                categoria_ciudad: propiedad.categoria_ciudad || "terciaria"
+            });
         }
     }, [propiedad]);
 
@@ -114,17 +119,49 @@ export default function PropiedadForm({ propiedad, onSubmit, onCancel }) {
                     </div>
                 </div>
 
-                <div className="col-12">
-                    <label className="form-label">Ubicación Geográfica</label>
+                <div className="col-md-6">
+                    <label className="form-label">Ubicación (Dirección/Barrio)</label>
                     <div className="position-relative">
                         <MapPin size={18} className="position-absolute" style={{ left: "1rem", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)", opacity: 0.6 }} />
                         <input
                             name="ubicacion"
-                            placeholder="Dirección, Barrio o Ciudad..."
+                            placeholder="Ej: Calle 10 # 43-20, El Poblado"
                             value={form.ubicacion}
                             onChange={handleChange}
                             className="premium-input ps-5"
                             required
+                        />
+                    </div>
+                </div>
+
+                <div className="col-md-6">
+                    <label className="form-label">Categoría de Ciudad (Para precios de cita)</label>
+                    <div className="position-relative">
+                        <MapPin size={18} className="position-absolute" style={{ left: "1rem", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)", opacity: 0.6, zIndex: 1 }} />
+                        <select
+                            name="categoria_ciudad"
+                            value={form.categoria_ciudad}
+                            onChange={handleChange}
+                            className="premium-input premium-select ps-5"
+                            required
+                        >
+                            <option value="principal">Principal (Bogotá, Medellín, Cali, B/quilla)</option>
+                            <option value="secundaria">Secundaria (Cartagena, Bucaramanga, Pereira, S. Marta)</option>
+                            <option value="terciaria">Terciaria (Resto del país)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div className="col-12">
+                    <label className="form-label">URL de Imagen (o Rastro en storage)</label>
+                    <div className="position-relative">
+                        <Layout size={18} className="position-absolute" style={{ left: "1rem", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)", opacity: 0.6 }} />
+                        <input
+                            name="imagen"
+                            placeholder="Ej: propiedades/casa1.jpg"
+                            value={form.imagen || ""}
+                            onChange={handleChange}
+                            className="premium-input ps-5"
                         />
                     </div>
                 </div>
