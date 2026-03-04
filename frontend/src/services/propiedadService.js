@@ -52,6 +52,16 @@ const propiedadService = {
             throw error.response?.data || error;
         }
     },
+
+    // Obtener URL del modelo 3D de una propiedad
+    getModelo3D: async (id) => {
+        try {
+            const response = await api.get(`/propiedades/${id}/modelo3d`);
+            return response.data; // { model_url: "..." | null }
+        } catch (error) {
+            return { model_url: null };
+        }
+    },
 };
 
 export default propiedadService;

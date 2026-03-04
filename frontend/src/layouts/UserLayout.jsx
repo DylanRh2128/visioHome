@@ -2,14 +2,11 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import {
     Shield,
-    ShoppingCart,
     LogOut
 } from "lucide-react";
-import { useCart } from "../context/CartContext";
 
 export default function UserLayout() {
     const { user, logout } = useAuth();
-    const { cart } = useCart();
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -51,16 +48,22 @@ export default function UserLayout() {
                                 Explorar
                             </Link>
                             <Link
+                                to="/user/favorites"
+                                className="nav-link fw-semibold text-secondary"
+                            >
+                                Favoritos
+                            </Link>
+                            <Link
                                 to="/user/appointments"
                                 className="nav-link fw-semibold text-secondary"
                             >
                                 Mis Citas
                             </Link>
                             <Link
-                                to="/user/3d"
+                                to="/user/profile"
                                 className="nav-link fw-semibold text-secondary"
                             >
-                                3D
+                                Mi Perfil
                             </Link>
                         </div>
                     </div>
@@ -68,16 +71,7 @@ export default function UserLayout() {
                     {/* RIGHT SIDE */}
                     <div className="d-flex align-items-center gap-3">
 
-                        {/* CART */}
-                        <Link
-                            to="/user/cart"
-                            className="position-relative p-2 text-secondary"
-                        >
-                            <ShoppingCart size={22} />
-                            {cart?.length > 0 && (
-                                <span className="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle" style={{ backgroundColor: '#6b0000' }}></span>
-                            )}
-                        </Link>
+                        {/* AGREGAR ESPACIO O OTROS ELEMENTOS SI ES NECESARIO */}
 
                         {/* USER INFO */}
                         <div className="d-none d-sm-flex align-items-center gap-3 ms-2">
@@ -92,13 +86,15 @@ export default function UserLayout() {
 
                             <img
                                 className="rounded-circle border border-light shadow-sm"
-                                style={{ width: '36px', height: '36px', objectFit: 'cover' }}
+                                style={{ width: '36px', height: '36px', objectFit: 'cover', cursor: 'pointer' }}
                                 src={
                                     user?.avatar
-                                        ? `http://127.0.0.1:8000/${user.avatar}`
+                                        ? `http://127.0.0.1:8000/storage/${user.avatar}`
                                         : `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.nombre || "User"}`
                                 }
                                 alt="Avatar"
+                                onClick={() => navigate('/user/profile')}
+                                title="Ver perfil"
                             />
                         </div>
 

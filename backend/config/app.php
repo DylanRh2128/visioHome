@@ -15,6 +15,8 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'enable_payments' => env('APP_ENABLE_PAYMENTS', false),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -53,6 +55,8 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+
+    'url_frontend' => env('APP_URL_FRONTEND', 'http://localhost:5173'),
 
     /*
     |--------------------------------------------------------------------------

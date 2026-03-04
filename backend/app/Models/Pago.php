@@ -10,6 +10,10 @@ class Pago extends Model
     protected $primaryKey = 'idPago';
     public $timestamps = false;
 
+    protected $casts = [
+        'monto' => 'float',
+    ];
+
     protected $fillable = [
         'docUsuario',
         'idPropiedad',
@@ -18,6 +22,8 @@ class Pago extends Model
         'metodoPago',
         'estado',
         'referencia',
+        'external_reference',
+        'mp_preference_id',
         'fecha',
     ];
 
@@ -25,5 +31,11 @@ class Pago extends Model
     public function propiedad()
     {
         return $this->belongsTo(Propiedad::class, 'idPropiedad', 'idPropiedad');
+    }
+
+    // Relación: un pago pertenece a una cita
+    public function cita()
+    {
+        return $this->belongsTo(Cita::class, 'idCita', 'idCita');
     }
 }

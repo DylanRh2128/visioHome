@@ -11,22 +11,31 @@ export default function UserForm({ user, onSubmit, onCancel }) {
     direccion: "",
     password: "",
     idRol: 2,
-    estado: "Activo",
+    activo: 1,
   });
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
 
   useEffect(() => {
     if (user) {
-      setForm({ ...user, password: "" });
+      setForm({
+        ...user,
+        password: "",
+        activo: user.activo ? 1 : 0
+      });
       if (user.avatar) {
         setPreviewUrl(`http://127.0.0.1:8000/${user.avatar}`);
       }
     }
   }, [user]);
 
-  const handleChange = (e) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setForm({
+      ...form,
+      [name]: type === "checkbox" ? (checked ? 1 : 0) : value
+    });
+  };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -44,6 +53,10 @@ export default function UserForm({ user, onSubmit, onCancel }) {
     e.preventDefault();
     const formData = new FormData();
     Object.keys(form).forEach(key => {
+      // IMPORTANTE: No enviar el avatar si es un string (la URL actual)
+      // para que el backend no reciba un valor de texto en vez de archivo
+      if (key === 'avatar') return;
+
       if (form[key] !== null && form[key] !== undefined) {
         formData.append(key, form[key]);
       }
@@ -112,7 +125,7 @@ export default function UserForm({ user, onSubmit, onCancel }) {
             <input
               name="nombre"
               placeholder="Ej. Carlos Rodriguez"
-              value={form.nombre}
+              value={form.nombre || ""}
               onChange={handleChange}
               className="premium-input ps-5"
               required
@@ -127,7 +140,7 @@ export default function UserForm({ user, onSubmit, onCancel }) {
             <input
               name="docUsuario"
               placeholder="12345678"
-              value={form.docUsuario}
+              value={form.docUsuario || ""}
               onChange={handleChange}
               disabled={user ? true : false}
               className="premium-input ps-5"
@@ -144,7 +157,7 @@ export default function UserForm({ user, onSubmit, onCancel }) {
               name="correo"
               type="email"
               placeholder="carlos@visiohome.com"
-              value={form.correo}
+              value={form.correo || ""}
               onChange={handleChange}
               className="premium-input ps-5"
               required
@@ -176,7 +189,7 @@ export default function UserForm({ user, onSubmit, onCancel }) {
             <Shield size={18} className="position-absolute" style={{ left: "1rem", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)", opacity: 0.6, zIndex: 1 }} />
             <select
               name="idRol"
-              value={form.idRol}
+              value={form.idRol || 2}
               onChange={handleChange}
               className="premium-input premium-select ps-5"
             >
@@ -195,11 +208,35 @@ export default function UserForm({ user, onSubmit, onCancel }) {
               name="password"
               type="password"
               placeholder={user ? "Nueva contraseña (opcional)" : "Mínimo 8 caracteres"}
-              value={form.password}
+              value={form.password || ""}
               onChange={handleChange}
               className="premium-input ps-5"
               required={!user}
             />
+          </div>
+        </div>
+
+        <div className="col-md-6 d-flex align-items-center">
+          <div className="premium-input d-flex align-items-center justify-content-center gap-3 w-100"
+            style={{
+              background: form.activo ? 'rgba(74, 222, 128, 0.05)' : 'rgba(248, 113, 113, 0.05)',
+              borderColor: form.activo ? '#4ade8050' : '#f8717150',
+              height: '52px'
+            }}>
+            <div className="form-check form-switch m-0 d-flex align-items-center gap-2">
+              <input
+                className="form-check-input cursor-pointer"
+                type="checkbox"
+                name="activo"
+                id="activoSwitchUser"
+                checked={!!form.activo}
+                onChange={handleChange}
+                style={{ width: '2.5em', height: '1.25em', backgroundColor: form.activo ? '#4ade80' : '#f87171' }}
+              />
+              <label className="form-check-label fw-bold small m-0" htmlFor="activoSwitchUser" style={{ color: form.activo ? '#1e8e3e' : '#d93025' }}>
+                {form.activo ? "CUENTA ACTIVA" : "CUENTA INACTIVA"}
+              </label>
+            </div>
           </div>
         </div>
 

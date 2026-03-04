@@ -34,6 +34,7 @@ export default function PropiedadTable({ propiedades, onEdit, onDelete }) {
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Imagen</th>
                     <th>Propiedad</th>
                     <th>Tipo / Área</th>
                     <th>Precio</th>
@@ -45,6 +46,16 @@ export default function PropiedadTable({ propiedades, onEdit, onDelete }) {
                 {propiedades.map((p) => (
                     <tr key={p.idPropiedad}>
                         <td><span style={{ color: "var(--text-muted)", fontWeight: "bold" }}>#{p.idPropiedad}</span></td>
+                        <td>
+                            <div style={{ width: '50px', height: '40px', borderRadius: '4px', overflow: 'hidden', background: '#333' }}>
+                                <img
+                                    src={p.imagen ? `http://127.0.0.1:8000/storage/${p.imagen}` : 'https://placehold.co/600x400?text=VisioHome'}
+                                    alt="Thumbnail"
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    onError={(e) => { e.target.src = 'https://placehold.co/600x400?text=No+Img'; }}
+                                />
+                            </div>
+                        </td>
                         <td>
                             <div className="d-flex flex-column">
                                 <span style={{ fontWeight: "700", color: "#fff" }}>{p.titulo}</span>
@@ -77,7 +88,7 @@ export default function PropiedadTable({ propiedades, onEdit, onDelete }) {
                             </div>
                         </td>
                         <td>
-                            <span style={{ fontWeight: "800", color: "#fff" }}>
+                            <span className="price-highlight">
                                 {formatPrice(p.precio)}
                             </span>
                         </td>

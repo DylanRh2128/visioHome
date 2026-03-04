@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Usuario;
+use App\Models\AgenteProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class UsuarioController extends Controller
 {
@@ -15,7 +17,12 @@ class UsuarioController extends Controller
     public function index(Request $request)
     {
         try {
-            $query = Usuario::query();
+            $query = Usuario::with('agenteProfile');
+
+            // Filtro por rol
+            if ($request->has('idRol')) {
+                $query->where('idRol', $request->idRol);
+            }
 
             // Filtro por búsqueda
             if ($request->has('search')) {
@@ -27,20 +34,24 @@ class UsuarioController extends Controller
                 });
             }
 
-            // Filtro por rol
-            if ($request->has('idRol')) {
-                $query->where('idRol', $request->idRol);
-            }
-
             $usuarios = $query->orderBy('creado_en', 'desc')->get();
 
-            // Agregar nombre del rol
+            // Agregar metadatos
             $usuarios->map(function($usuario) {
                 $roles = [1 => 'Admin', 2 => 'Cliente', 3 => 'Agente'];
                 $usuario->nombreRol = $roles[$usuario->idRol] ?? 'Desconocido';
-                $usuario->estado = $usuario->bloqueadoHasta && $usuario->bloqueadoHasta > now() 
-                    ? 'Inactivo' 
-                    : 'Activo';
+                $usuario->estado = $usuario->activo ? 'Activo' : 'Inactivo';
+                
+                // Si es agente, aplanar perfil para compatibilidad frontend
+                if ($usuario->idRol == 3 && $usuario->agenteProfile) {
+                    $p = $usuario->agenteProfile;
+                    $usuario->carrera = $p->carrera;
+                    $usuario->especialidad = $p->especialidad;
+                    $usuario->biografia = $p->biografia;
+                    $usuario->experiencia_anos = $p->experiencia_anos;
+                    $usuario->nitInmobiliaria = $p->nitInmobiliaria;
+                }
+                
                 return $usuario;
             });
 
@@ -58,31 +69,45 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
+        DB::beginTransaction();
         try {
             $validator = Validator::make($request->all(), [
                 'docUsuario' => 'required|string|max:20|unique:usuarios,docUsuario',
                 'nombre' => 'required|string|max:120',
                 'correo' => 'required|email|max:180|unique:usuarios,correo',
-                'telefono' => 'nullable|string|max:30',
-                'direccion' => 'nullable|string|max:200',
                 'password' => 'required|string|min:6',
-                'idRol' => 'required|integer|in:1,2,3'
+                'idRol' => 'required|integer|in:1,2,3',
+                'ciudad' => 'nullable|string|max:100',
+                'activo' => 'sometimes|boolean'
             ]);
 
             if ($validator->fails()) {
-                return response()->json([
-                    'message' => 'Error de validación',
-                    'errors' => $validator->errors()
-                ], 422);
+                return response()->json(['message' => 'Error de validación', 'errors' => $validator->errors()], 422);
             }
 
-            $usuario = Usuario::create($request->all());
+            $usuarioData = $request->except(['avatar']);
+            $usuarioData['password'] = $request->password; // Ensure it's passed for model hashing if applicable
+            if ($request->hasFile('avatar')) {
+                $path = $request->file('avatar')->store('avatars', 'public');
+                $usuarioData['avatar'] = $path;
+            }
 
+            $usuario = Usuario::create($usuarioData);
+
+            // Si es Agente, crear perfil
+            if ($usuario->idRol == 3) {
+                AgenteProfile::create([
+                    'usuario_id' => $usuario->docUsuario
+                ]);
+            }
+
+            DB::commit();
             return response()->json([
                 'message' => 'Usuario creado exitosamente',
-                'usuario' => $usuario
+                'usuario' => $usuario->load('agenteProfile')
             ], 201);
         } catch (\Exception $e) {
+            DB::rollBack();
             return response()->json([
                 'message' => 'Error al crear usuario',
                 'error' => $e->getMessage()
@@ -96,13 +121,11 @@ class UsuarioController extends Controller
     public function show($id)
     {
         try {
-            $usuario = Usuario::findOrFail($id);
+            $usuario = Usuario::with('agenteProfile')->findOrFail($id);
             
             $roles = [1 => 'Admin', 2 => 'Cliente', 3 => 'Agente'];
             $usuario->nombreRol = $roles[$usuario->idRol] ?? 'Desconocido';
-            $usuario->estado = $usuario->bloqueadoHasta && $usuario->bloqueadoHasta > now() 
-                ? 'Inactivo' 
-                : 'Activo';
+            $usuario->estado = $usuario->activo ? 'Activo' : 'Inactivo';
 
             return response()->json($usuario, 200);
         } catch (\Exception $e) {
@@ -118,39 +141,65 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
+        DB::beginTransaction();
         try {
             $usuario = Usuario::findOrFail($id);
+            $oldRol = $usuario->idRol;
 
             $validator = Validator::make($request->all(), [
                 'nombre' => 'sometimes|required|string|max:120',
-                'correo' => 'sometimes|required|email|max:180|unique:usuarios,correo,' . $id . ',docUsuario',
-                'telefono' => 'nullable|string|max:30',
-                'direccion' => 'nullable|string|max:200',
                 'password' => 'nullable|string|min:6',
-                'idRol' => 'sometimes|required|integer|in:1,2,3'
+                'idRol' => 'sometimes|required|integer|in:1,2,3',
+                'ciudad' => 'nullable|string|max:100',
+                'activo' => 'sometimes|boolean'
             ]);
 
             if ($validator->fails()) {
-                return response()->json([
-                    'message' => 'Error de validación',
-                    'errors' => $validator->errors()
-                ], 422);
+                return response()->json(['message' => 'Error de validación', 'errors' => $validator->errors()], 422);
             }
 
-            $data = $request->except('docUsuario'); // No permitir cambiar el documento
-            
-            // Solo actualizar password si se envía
-            if (!$request->has('password') || empty($request->password)) {
+            $data = $request->except(['docUsuario', 'correo', 'avatar', 'activo']);
+            if ($request->has('activo')) {
+                $data['activo'] = (bool) $request->activo;
+            }
+
+            if (empty($data['password'])) {
                 unset($data['password']);
+            }
+            
+            if ($request->hasFile('avatar')) {
+                $path = $request->file('avatar')->store('avatars', 'public');
+                $data['avatar'] = $path;
             }
 
             $usuario->update($data);
 
+            // Manejo dinámico de perfil
+            if ($usuario->idRol == 3 && $oldRol != 3) {
+                // Convertido a Agente
+                AgenteProfile::firstOrCreate(['usuario_id' => $usuario->docUsuario]);
+            } elseif ($usuario->idRol != 3 && $oldRol == 3) {
+                // Ya no es Agente, eliminar perfil (opcional)
+                if ($usuario->agenteProfile) {
+                    $usuario->agenteProfile->delete();
+                }
+            }
+
+            // Si es agente y vienen datos de perfil, actualizarlos
+            if ($usuario->idRol == 3) {
+                $profileFields = $request->only(['carrera', 'especialidad', 'biografia', 'experiencia_anos', 'nitInmobiliaria']);
+                if (!empty($profileFields) && $usuario->agenteProfile) {
+                    $usuario->agenteProfile->update($profileFields);
+                }
+            }
+
+            DB::commit();
             return response()->json([
                 'message' => 'Usuario actualizado exitosamente',
-                'usuario' => $usuario
+                'usuario' => $usuario->load('agenteProfile')
             ], 200);
         } catch (\Exception $e) {
+            DB::rollBack();
             return response()->json([
                 'message' => 'Error al actualizar usuario',
                 'error' => $e->getMessage()
@@ -165,16 +214,40 @@ class UsuarioController extends Controller
     {
         try {
             $usuario = Usuario::findOrFail($id);
+            
+            if ($usuario->agenteProfile) {
+                $usuario->agenteProfile->delete();
+            }
+            
             $usuario->delete();
 
-            return response()->json([
-                'message' => 'Usuario eliminado exitosamente'
-            ], 200);
+            return response()->json(['message' => 'Usuario eliminado exitosamente'], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Error al eliminar usuario',
                 'error' => $e->getMessage()
             ], 500);
+        }
+    }
+
+    /**
+     * Obtener estadísticas globales de usuarios
+     */
+    public function globalStats()
+    {
+        try {
+            return response()->json([
+                'total_usuarios' => Usuario::count(),
+                'total_clientes' => Usuario::where('idRol', 2)->count(),
+                'total_agentes' => Usuario::where('idRol', 3)->count(),
+                'total_admins' => Usuario::where('idRol', 1)->count(),
+                'total_activos' => Usuario::where('activo', 1)->count(),
+                'total_bloqueados' => Usuario::whereNotNull('bloqueadoHasta')
+                    ->orWhere('activo', 0)
+                    ->count()
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error al obtener estadísticas', 'error' => $e->getMessage()], 500);
         }
     }
 }

@@ -1,9 +1,6 @@
-import React from "react";
-import { MapPin, Star, ShoppingCart } from "lucide-react";
-import { useCart } from "@/context/CartContext";
+import { MapPin, Star } from "lucide-react";
 
 const PropertyCard = ({ property }) => {
-    const { addToCart } = useCart();
     return (
         <div className="user-card-property group cursor-pointer">
             <div className="user-property-img-wrapper">
@@ -40,16 +37,6 @@ const PropertyCard = ({ property }) => {
                 <div className="pt-4 border-t border-gray-100 flex justify-between items-center">
                     <div className="user-property-price mb-0">{property.price}</div>
                     <div className="flex gap-2">
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                addToCart(property);
-                            }}
-                            className="bg-gray-100 p-2 rounded-lg hover:bg-[#6b0000] hover:text-white transition-colors"
-                            title="Agregar al carrito"
-                        >
-                            <ShoppingCart className="w-4 h-4" />
-                        </button>
                         <button className="text-[#6b0000] font-bold text-sm hover:underline">
                             Ver Detalles
                         </button>

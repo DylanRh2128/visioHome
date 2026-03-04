@@ -12,7 +12,9 @@ import {
   UserCog,
   FileText,
   UserCheck,
-  Building
+  Building,
+  Heart,
+  Settings
 } from "lucide-react";
 
 const API_BASE_URL = "http://127.0.0.1:8000/";
@@ -25,7 +27,7 @@ export default function Sidebar() {
 
   // Construcción segura de la URL del avatar
   const avatarUrl = user?.avatar
-    ? `${API_BASE_URL}${user.avatar}`
+    ? `${API_BASE_URL}storage/${user.avatar}`
     : `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.nombre || 'Admin'}`;
 
   return (
@@ -64,7 +66,7 @@ export default function Sidebar() {
         </NavLink>
 
         <NavLink
-          to="/admin/propiedades"
+          to="/admin/ventas"
           style={({ isActive }) => ({
             ...styles.navLink,
             ...(isActive ? styles.navLinkActive : {})
@@ -85,34 +87,52 @@ export default function Sidebar() {
           <span>Usuarios</span>
         </NavLink>
 
-        <NavLink
-          to="/admin/3d"
-          style={({ isActive }) => ({
-            ...styles.navLink,
-            ...(isActive ? styles.navLinkActive : {})
-          })}
-        >
-          <Box size={18} />
-          <span>3D</span>
-        </NavLink>
+        {/* USER NAVIGATION - DYNAMIC */}
+        {(user?.idRol === 2 || user?.nombreRol === 'Usuario') && (
+          <>
+            <div style={styles.sectionDivider}>Espacio Usuario</div>
+
+            <NavLink
+              to="/user/properties"
+              style={({ isActive }) => ({
+                ...styles.navLink,
+                ...(isActive ? styles.navLinkActive : {})
+              })}
+            >
+              <Box size={18} />
+              <span>Explorar</span>
+            </NavLink>
+
+            <NavLink
+              to="/user/favorites"
+              style={({ isActive }) => ({
+                ...styles.navLink,
+                ...(isActive ? styles.navLinkActive : {})
+              })}
+            >
+              <Heart size={18} />
+              <span>Favoritos</span>
+            </NavLink>
+
+            <NavLink
+              to="/user/appointments"
+              style={({ isActive }) => ({
+                ...styles.navLink,
+                ...(isActive ? styles.navLinkActive : {})
+              })}
+            >
+              <FileText size={18} />
+              <span>Mis Citas</span>
+            </NavLink>
+          </>
+        )}
 
         {/* DROPDOWN DE ADMINISTRACIÓN */}
         <div>
-          <button
-            onClick={toggleAdmin}
-            style={styles.dropdownToggle}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <Building size={18} />
-              <span>Administración</span>
-            </div>
-            {isAdminOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-          </button>
-
           {isAdminOpen && (
             <div style={styles.dropdownMenu}>
               <NavLink
-                to="/admin/crud/usuarios"
+                to="/admin/usuarios"
                 style={({ isActive }) => ({
                   ...styles.dropdownItem,
                   ...(isActive ? styles.dropdownItemActive : {})
@@ -123,7 +143,7 @@ export default function Sidebar() {
               </NavLink>
 
               <NavLink
-                to="/admin/crud/facturas"
+                to="/admin/facturas"
                 style={({ isActive }) => ({
                   ...styles.dropdownItem,
                   ...(isActive ? styles.dropdownItemActive : {})
@@ -134,7 +154,7 @@ export default function Sidebar() {
               </NavLink>
 
               <NavLink
-                to="/admin/crud/agentes"
+                to="/admin/agentes"
                 style={({ isActive }) => ({
                   ...styles.dropdownItem,
                   ...(isActive ? styles.dropdownItemActive : {})
@@ -145,7 +165,7 @@ export default function Sidebar() {
               </NavLink>
 
               <NavLink
-                to="/admin/crud/propiedades"
+                to="/admin/propiedades"
                 style={({ isActive }) => ({
                   ...styles.dropdownItem,
                   ...(isActive ? styles.dropdownItemActive : {})
@@ -153,6 +173,17 @@ export default function Sidebar() {
               >
                 <Building size={16} />
                 <span>Propiedades</span>
+              </NavLink>
+
+              <NavLink
+                to="/admin/configuracion"
+                style={({ isActive }) => ({
+                  ...styles.dropdownItem,
+                  ...(isActive ? styles.dropdownItemActive : {})
+                })}
+              >
+                <Settings size={16} />
+                <span>Configuración</span>
               </NavLink>
             </div>
           )}
@@ -244,6 +275,15 @@ const styles = {
     gap: "4px",
     flex: 1,
     overflowY: 'hidden', // SIN SCROLL POR REQUERIMIENTO
+  },
+  sectionDivider: {
+    padding: '10px 16px',
+    fontSize: '11px',
+    textTransform: 'uppercase',
+    letterSpacing: '1.5px',
+    fontWeight: '700',
+    color: 'rgba(255,255,255,0.4)',
+    marginTop: '10px'
   },
   navLink: {
     display: "flex",

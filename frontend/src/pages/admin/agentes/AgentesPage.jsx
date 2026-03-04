@@ -52,17 +52,28 @@ export default function AgentesPage() {
     setShowForm(true);
   };
 
-  const handleSubmit = async (formData) => {
+  const handleSubmit = async (data) => {
     try {
+      const formData = new FormData();
+      Object.keys(data).forEach(key => {
+        if (data[key] !== null && data[key] !== undefined) {
+          formData.append(key, data[key]);
+        }
+      });
+
       if (selectedAgente) {
-        await agenteService.update(selectedAgente.docAgente, formData);
+        await agenteService.update(selectedAgente.docUsuario, formData);
       } else {
         await agenteService.create(formData);
       }
       setShowForm(false);
       loadAgentes();
     } catch (error) {
-      alert(error.message || "Error al guardar agente");
+      console.error("Error al guardar agente:", error);
+      const msg = error?.errors
+        ? Object.values(error.errors).flat().join(" | ")
+        : error?.message || "Error al guardar agente";
+      alert(msg);
     }
   };
 
@@ -79,7 +90,7 @@ export default function AgentesPage() {
   const filtered = agentes.filter(a =>
     String(a.nombre || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
     String(a.correo || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
-    String(a.docAgente || "").includes(searchTerm)
+    String(a.docUsuario || "").includes(searchTerm)
   );
   console.log("AgentesPage renderizando");
 

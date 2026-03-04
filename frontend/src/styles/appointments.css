@@ -1,0 +1,167 @@
+.appointments-container {
+    animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.appointment-card {
+    background: white;
+    border-radius: 2rem;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.appointment-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px -12px rgba(107, 0, 0, 0.12);
+    border-color: rgba(107, 0, 0, 0.1);
+}
+
+.appointment-image-wrapper {
+    position: relative;
+    height: 180px;
+    width: 100%;
+}
+
+.appointment-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.appointment-status-overlay {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+.appointment-content {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.appointment-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.appointment-info-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #666;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
+
+.appointment-info-icon {
+    color: #6b0000;
+}
+
+.appointment-price {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #6b0000;
+    margin-top: 1rem;
+    letter-spacing: -0.02em;
+}
+
+.appointment-footer {
+    margin-top: auto;
+    padding-top: 1.25rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.btn-premium {
+    padding: 0.75rem 1rem;
+    border-radius: 1rem;
+    font-weight: 800;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-pay {
+    background: #6b0000;
+    color: white;
+    border: none;
+    grid-column: span 2;
+}
+
+.btn-pay:hover {
+    background: #4a0000;
+    transform: scale(1.02);
+}
+
+.btn-cancel {
+    background: #f8f9fa;
+    color: #666;
+    border: 1px solid #dee2e6;
+}
+
+.btn-cancel:hover {
+    background: #fff5f5;
+    color: #c53030;
+    border-color: #feb2b2;
+}
+
+.status-badge {
+    padding: 0.35rem 0.85rem;
+    border-radius: 0.75rem;
+    font-size: 0.7rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    backdrop-filter: blur(8px);
+}
+
+.status-pendiente {
+    background: rgba(255, 193, 7, 0.2);
+    color: #856404;
+}
+
+.status-confirmada {
+    background: rgba(40, 167, 69, 0.2);
+    color: #155724;
+}
+
+.status-cancelada {
+    background: rgba(220, 53, 69, 0.2);
+    color: #721c24;
+}
+
+.status-realizada {
+    background: rgba(0, 123, 255, 0.2);
+    color: #004085;
+}
+
+.status-pagada {
+    background: rgba(16, 185, 129, 0.2);
+    color: #065f46;
+}
