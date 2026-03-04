@@ -1,0 +1,64 @@
+{
+    "agentes": {
+        "docAgente": "varchar",
+        "nombre": "varchar",
+        "carrera": "varchar",
+        "especialidad": "varchar",
+        "experiencia_anos": "int",
+        "direccion": "varchar",
+        "ciudad": "varchar",
+        "correo": "varchar",
+        "password": "varchar",
+        "telefono": "varchar",
+        "nitInmobiliaria": "varchar",
+        "activo": "tinyint",
+        "promedio_valoracion": "decimal"
+    },
+    "usuarios": {
+        "docUsuario": "varchar",
+        "nombre": "varchar",
+        "correo": "varchar",
+        "avatar": "varchar",
+        "telefono": "varchar",
+        "direccion": "varchar",
+        "password": "varchar",
+        "idRol": "tinyint",
+        "genero": "enum",
+        "login_count": "int",
+        "creado_en": "datetime",
+        "actualizado_en": "datetime",
+        "intentosFallidos": "int",
+        "bloqueadoHasta": "datetime"
+    },
+    "valoraciones_agentes": {
+        "idValoracion": "bigint",
+        "docAgente": "varchar",
+        "docUsuario": "varchar",
+        "puntuacion": "int",
+        "comentario": "text",
+        "creado_en": "timestamp"
+    },
+    "personal_access_tokens": {
+        "id": "bigint",
+        "tokenable_type": "varchar",
+        "tokenable_id": "bigint",
+        "name": "text",
+        "token": "varchar",
+        "abilities": "text",
+        "last_used_at": "timestamp",
+        "expires_at": "timestamp",
+        "created_at": "timestamp",
+        "updated_at": "timestamp"
+    },
+    "citas": {
+        "idCita": "bigint",
+        "idPropiedad": "bigint",
+        "docUsuario": "varchar",
+        "docAgente": "varchar",
+        "fecha": "datetime",
+        "estado": "varchar",
+        "canal": "varchar",
+        "notas": "text",
+        "creado_en": "datetime"
+    }
+}
